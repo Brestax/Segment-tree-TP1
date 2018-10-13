@@ -13,7 +13,7 @@
 class SegmentTree{
 
 private:
-	int Leng;
+	int _Leng;
 	Quartet * _Array;
 
 	SegmentTree();
@@ -21,7 +21,7 @@ private:
 
 public:
 	SegmentTree(const ArrayElement &);
-
+o
 	~SegmentTree();
 };
 

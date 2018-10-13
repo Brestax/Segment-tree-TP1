@@ -44,6 +44,7 @@ bool Quartet::GetInfinity(void){
 
 void Quartet::SetTotal(double d){
 	_Total = d;
+	_InfinityStatus = false;
 }
 
 void Quartet::SetMin(double d){
@@ -53,11 +54,12 @@ void Quartet::SetMin(double d){
 
 void Quartet::SetMax(double d){
 	_Max = d;
-	_InfinityStatus = false
+	_InfinityStatus = false;
 }
 
 void Quartet::SetQuantity(int i){
 	_Quantity = i;
+	_InfinityStatus = false;
 }
 
 void Quartet::ToInfinity(void){
