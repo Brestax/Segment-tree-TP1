@@ -200,7 +200,7 @@ status_t ParsedData(istream & is, Red & Object){
 	double Number;
 	double * Data;
 
-	Data = new double[Object.GetLeng()];
+	Data = new double[Object.GetLeng() + 1];	// El +1 representa el ultimo numero que es el promedio de todos los sensores
 
 	// Lee linea por linea
 	while(getline(is, Read)){
@@ -215,6 +215,12 @@ status_t ParsedData(istream & is, Red & Object){
 			}
 			i++;
 		}
+
+		// Calculo el ultimo componente del vector que esta conformado de el promedio de los otros valores
+		Data[Object.GetLeng()] = 0;
+		for(i = 0; i < Object.GetLeng(); i++)
+			Data[Object.GetLeng()] += Data[i]/Object.GetLeng();
+
 		Object.AppendRow(Data);
 	}
 

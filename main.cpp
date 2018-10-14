@@ -13,6 +13,9 @@
 #include "Error.hpp"
 #include "Utils.hpp"
 
+#define OPTION_TREE "Tree"
+#define OPTION_ITERATION "Iteration"
+
 using namespace std;
 
 static void opt_input(string const &);
@@ -26,6 +29,7 @@ static option_t options[] = {
 	{1, "d", "data", NULL, opt_data, OPT_MANDATORY},
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
+	{1, "p", "Process", "-", opt_Process, OPT_DEFAULT},
 	{0, "h", "help", NULL, opt_help, OPT_DEFAULT},
 	{0, },
 };
@@ -36,6 +40,7 @@ static ostream *oss = 0;
 static fstream dfs;
 static fstream ifs;
 static fstream ofs;
+static bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o no
 
 /********************* Cuerpo principal *********************/
 
@@ -53,7 +58,7 @@ int main(int argc, char * const argv[]){
 		return EXIT_FAILURE;
 	}
 
-	// Se llama a una funcion que procesa todas las querys del archivo de entrada y escribe el archivo de salida
+	// Se llama a una funcion que Processa todas las querys del archivo de entrada y escribe el archivo de salida
 	if ((st = ManageQuerys(*iss, *oss, SensorNet)) != ST_OK){
 		PrintError(st);
 		return EXIT_FAILURE;
@@ -135,6 +140,19 @@ static void opt_help(string const &arg){
 	exit(0);
 }
 
+static void opt_Process(string const &arg){
+
+	if (arg == "-") {
+		ProcessTree = true;	// Establezco la opcion estandar como el proceso utilizando el SegmentTree
+	}else if(arg = OPTION_TREE){
+		ProcessTree = true;
+	}else if(arg = OPTION_ITERATION){
+		ProcessTree = false;
+	}else{
+		ProcessTree = true;
+	}
+
+}
 
 
 

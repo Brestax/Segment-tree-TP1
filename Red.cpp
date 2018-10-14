@@ -21,8 +21,8 @@ Red::Red(){
 
 Red::Red(int Number){
 	_Ids = new string[Number];
-	_Sensors = new ArrayDouble*[Number];
-	for (int i = 0; i < Number; ++i){
+	_Sensors = new ArrayDouble*[Number + 1];
+	for (int i = 0; i <= Number; ++i){
 		_Sensors[i] = new ArrayDouble(INITIAL_LENGTH_VECTOR);
 	}
 	_Pack = new Package;
@@ -39,8 +39,8 @@ Red::Red(const Red & r){
 		_Ids[i] = r._Ids[i];
 	}
 
-	_Sensors = new ArrayDouble*[SensorSize];
-	for (int i = 0; i < SensorSize; ++i){
+	_Sensors = new ArrayDouble*[SensorSize + 1];
+	for (int i = 0; i <= SensorSize; ++i){
 		_Sensors[i] = new ArrayDouble(*(r._Sensors[i]));
 	}
 
@@ -76,8 +76,8 @@ void Red::SetSensors(string * &Names, size_t Number){
 		delete[] _Sensors;
 	}
 
-	_Sensors = new ArrayDouble*[Number];			// Se crean los arrays de doubles vacios
-	for(size_t i = 0; i < Number; ++i){
+	_Sensors = new ArrayDouble*[Number + 1];			// Se crean los arrays de doubles vacios
+	for(size_t i = 0; i <= Number; ++i){
 		_Sensors[i] = new ArrayDouble(INITIAL_LENGTH_VECTOR);
 	}
 
@@ -118,7 +118,7 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 		return;
 	}
 
-	// Verifio si el intervalo esta en los Arreglos
+		// Verifio si el intervalo esta en los Arreglos
 	if(Start > _Sensors[i]->UsedSize()){
 		_Pack->SetRangeStatus(true);
 	}
@@ -275,14 +275,14 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 }
 
 void Red::AppendRow(double * & Data){
-	for (int i = 0; i < _Amount; ++i){
+	for (int i = 0; i <= _Amount; ++i){
 		_Sensors[i]->Append(Data[i]);
 	}
 }
 
 Red::~Red(){
 	delete[] _Ids;
-	for (int i = 0; i < _Amount; ++i){
+	for (int i = 0; i <= _Amount; ++i){
 		delete _Sensors[i];
 	}
 	delete[] _Sensors;

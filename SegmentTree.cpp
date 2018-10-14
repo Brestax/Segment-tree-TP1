@@ -80,7 +80,35 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		_Array[i].SetTotal(_Array[(i * 2) + 1].GetTotal() + _Array[(i * 2) + 2].GetTotal());
 		_Array[i].SetQuantity(_Array[(i * 2) + 1].GetQuantity() + _Array[(i * 2) + 2].GetQuantity());
 	}
+}
 
+Quartet& SegmentTree::GetSegment(int Left, int Right){
+	// Falta validar que los valores sean mayores que 0 y ademas que LEft no sea mayor que el numero de valores, ajustar para cuando Right es mayor que el numero de valores
+
+	// Quizas conviene que la funcion devuela un paquete (el mismo que tiene el objeto red) 
+	return _GetSegment(0, Left, Right);
+}
+
+Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
+	int Midle;
+	Quartet LeftPart, RightPart;
+
+	if((_Array[Node].GetLeft() == Left) && (_Array[Node].GetRight() == Right)){
+		return _Array[Node];
+	}
+
+	Midle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
+
+	if(Right <= Midle)
+		return _GetSegment(2 * Node + 1, Right, Left);
+
+	if(Left >= Midle)
+		return _GetSegment(2 * Node + 2, Right, Left);
+
+	LeftPart = _GetSegment(2 * Node + 1, Left, Midle);
+	RightPart = _GetSegment(2 * Node + 2, Midle, Right);
+
+	return LeftPart.Merge(RightPart);
 }
 
 SegmentTree::~SegmentTree(){
