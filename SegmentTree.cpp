@@ -5,6 +5,8 @@
 #include "SegmentTree.hpp"
 #include "Quartet.hpp"
 
+// Falta setear los valores de cada extremo de cada nodo , es decir de Left y Right de cada Quartet
+
 SegmentTree::SegmentTree(const ArrayElement &Source){
 
 	int Pos, LeafPosition;

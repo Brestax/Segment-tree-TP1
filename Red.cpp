@@ -7,7 +7,8 @@
 #include <string>
 using namespace std;
 
-#include "ArrayDouble.hpp"
+#include "Element.hpp"
+#include "ArrayElement.hpp"
 #include "Package.hpp"
 #include "Utils.hpp"
 #include "Red.hpp"
@@ -21,9 +22,9 @@ Red::Red(){
 
 Red::Red(int Number){
 	_Ids = new string[Number];
-	_Sensors = new ArrayDouble*[Number + 1];
+	_Sensors = new ArrayElement*[Number + 1];
 	for (int i = 0; i <= Number; ++i){
-		_Sensors[i] = new ArrayDouble(INITIAL_LENGTH_VECTOR);
+		_Sensors[i] = new ArrayElement(INITIAL_LENGTH_VECTOR);
 	}
 	_Pack = new Package;
 	_Amount = Number;
@@ -39,9 +40,9 @@ Red::Red(const Red & r){
 		_Ids[i] = r._Ids[i];
 	}
 
-	_Sensors = new ArrayDouble*[SensorSize + 1];
+	_Sensors = new ArrayElement*[SensorSize + 1];
 	for (int i = 0; i <= SensorSize; ++i){
-		_Sensors[i] = new ArrayDouble(*(r._Sensors[i]));
+		_Sensors[i] = new ArrayElement(*(r._Sensors[i]));
 	}
 
 	_Pack = new Package(*(r._Pack))	;
@@ -76,9 +77,9 @@ void Red::SetSensors(string * &Names, size_t Number){
 		delete[] _Sensors;
 	}
 
-	_Sensors = new ArrayDouble*[Number + 1];			// Se crean los arrays de doubles vacios
+	_Sensors = new ArrayElement*[Number + 1];			// Se crean los arrays de doubles vacios
 	for(size_t i = 0; i <= Number; ++i){
-		_Sensors[i] = new ArrayDouble(INITIAL_LENGTH_VECTOR);
+		_Sensors[i] = new ArrayElement(INITIAL_LENGTH_VECTOR);
 	}
 
 	_Amount = Number; 							// Se le asigna la nueva cantidad de sesores
@@ -274,7 +275,7 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 	delete aux;
 }
 
-void Red::AppendRow(double * & Data){
+void Red::AppendRow(Element * & Data){
 	for (int i = 0; i <= _Amount; ++i){
 		_Sensors[i]->Append(Data[i]);
 	}
