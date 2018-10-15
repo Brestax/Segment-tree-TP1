@@ -1,3 +1,4 @@
+
 /*
 	Archivo: Red.cpp
 */
@@ -26,7 +27,8 @@ class Red {
 private:
 
 	string * _Ids;
-	ArrayDouble ** _Sensors;
+	ArrayElement ** _Sensors;
+	SegmentTree ** _Trees;
 	Package  * _Pack;
 
 	int _Amount;   		// Cantidad de sensores almacenados
@@ -45,7 +47,11 @@ public:
 	void MakeSmallQuery(string, int, int);				//Le paso un string con la ID del sensor y los rangos para hacer el query
 	void MakeBigQuery(int, int);						//Le paso los rangos para hacer la query ya que lo hace sobre todos los sensores
 	void MakeComplexQuery(string * &, int, int, int);	//Le paso un vector de strings con los Ids de los sensores, la cantidad de sensores y los rangos para el query
+	void MakeSmallQueryTree(string, int, int);			
+	void MakeBigQueryTree(int, int);
+	void MakeComplexQueryTree(string * &, int, int);
 	void AppendRow(Element * &);
+	void ProcesTrees(void);
 	~Red();
 
 };

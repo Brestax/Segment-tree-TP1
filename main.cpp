@@ -21,6 +21,7 @@ using namespace std;
 static void opt_input(string const &);
 static void opt_output(string const &);
 static void opt_data(string const &);
+static void opt_process(string const &arg);
 static void opt_help(string const &);
 
 /********************* Elementos golbales *********************/
@@ -29,7 +30,7 @@ static option_t options[] = {
 	{1, "d", "data", NULL, opt_data, OPT_MANDATORY},
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
-	{1, "p", "Process", "-", opt_Process, OPT_DEFAULT},
+	{1, "p", "Process", "-", opt_process, OPT_DEFAULT},
 	{0, "h", "help", NULL, opt_help, OPT_DEFAULT},
 	{0, },
 };
@@ -140,7 +141,7 @@ static void opt_help(string const &arg){
 	exit(0);
 }
 
-static void opt_Process(string const &arg){
+static void opt_process(string const &arg){
 
 	if (arg == "-") {
 		ProcessTree = true;	// Establezco la opcion estandar como el proceso utilizando el SegmentTree

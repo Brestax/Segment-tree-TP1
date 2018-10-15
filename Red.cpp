@@ -164,7 +164,7 @@ void Red::MakeBigQuery(int Start, int End){
 
 	////aux->Clear();
 
-	// Verifio si el intervalo esta en los Arreglos
+	// Verifico si el intervalo esta en los Arreglos
 	if(Start > _Sensors[0]->UsedSize()){
 		_Pack->SetRangeStatus(true);
 	}
@@ -181,18 +181,17 @@ void Red::MakeBigQuery(int Start, int End){
 	aux->SetQuantity(_Amount * (FinalMark - Start));
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[0])[Start]);
-	aux->SetMax((*_Sensors[0])[Start]);
+	aux->SetMin((*_Sensors[_Amount])[Start]);
+	aux->SetMax((*_Sensors[_Amount])[Start]);
 
-	for (int i = 0; i < _Amount; ++i){
-		for (int j = Start; j < FinalMark; ++j){
-			aux->SetAverage(aux->GetAverage() + (*_Sensors[i])[j] / aux->GetQuantity());
-			if((*_Sensors[i])[j] < aux->GetMin()){
-				aux->SetMin((*_Sensors[i])[j]);
-			}
-			if((*_Sensors[i])[j] > aux->GetMax()){
-				aux->SetMax((*_Sensors[i])[j]);
-			}
+	//
+	for (int j = Start; j < FinalMark; ++j){
+		aux->SetAverage(aux->GetAverage() + (*_Sensors[_Amount])[j] / aux->GetQuantity());
+		if((*_Sensors[_Amount])[j] < aux->GetMin()){
+			aux->SetMin((*_Sensors[_Amount])[j]);
+		}
+		if((*_Sensors[_Amount])[j] > aux->GetMax()){
+			aux->SetMax((*_Sensors[_Amount])[j]);
 		}
 	}
 
@@ -275,9 +274,53 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 	delete aux;
 }
 
+void Red::MakeSmallQueryTree(string ID, int Start, int End){
+	Package *aux;
+
+	aux = new Package;
+
+	aux->SetIdStatus(true);
+	for(int i = 0; i < _Amount; i++){
+		if(!(_Ids[i].compare(ID))){
+			aux->SetIdStatus(false);
+			break;
+		}
+	}
+	if(aux->GetIdStatus()){
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}	
+
+	*aux = (*_Trees[i]).GetSegment(Start, End);
+
+	*_Pack = *aux;
+	delete aux;
+}
+
+void Red::MakeBigQueryTree(int Start, in End){
+	Package *aux;
+
+	*aux = (*_Trees[_Amount]).GetSegment(Start,End);
+	Package *aux;
+
+	*aux = (*_Trees[_Amount]).GetSegment(Start, End);
+
+	*_Pack = *aux;
+	delete aux;
+
+}
+
 void Red::AppendRow(Element * & Data){
 	for (int i = 0; i <= _Amount; ++i){
 		_Sensors[i]->Append(Data[i]);
+	}
+}
+
+void ProcesTrees(void){
+	_Trees = new SegmentTree*[_Amount + 1];
+	for(int i = 0; i <= _Amount; ++i){
+		*(_Trees[i]) = new SegmentTree(*(_Sensors[i]));
 	}
 }
 
@@ -289,3 +332,23 @@ Red::~Red(){
 	delete[] _Sensors;
 	delete _Pack;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

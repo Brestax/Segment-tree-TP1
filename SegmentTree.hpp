@@ -13,7 +13,8 @@
 class SegmentTree{
 
 private:
-	int _Leng;
+
+	int _Leng, _UsedLeafs;
 	Quartet * _Array;
 
 	SegmentTree();

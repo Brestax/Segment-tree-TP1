@@ -5,7 +5,20 @@
 #include "SegmentTree.hpp"
 #include "Quartet.hpp"
 
-// Falta setear los valores de cada extremo de cada nodo , es decir de Left y Right de cada Quartet
+SegmentTree::SegmentTree(){
+	_Leng = 0;
+	_UsedLeafs = 0;
+	_Array = NULL;
+}
+
+SegmentTree::SegmentTree(const SegmentTree & s){
+	_Leng = s._Leng;
+	_UsedLeafs = s._UsedLeafs;
+
+	_Array = new Quartet[_Leng];
+	for(int i = 0; i < _Leng; i++)
+		_Array[i] = s._Array[i];
+}
 
 SegmentTree::SegmentTree(const ArrayElement &Source){
 
@@ -33,9 +46,9 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	for(i = 0, j = 1; SourceLeng <= 2 * j; i++, j*=2){
 	}
 
-	_Len = (2 * j) * 2 - 1;
+	_Leng = (2 * j) * 2 - 1;
 	LeafPosition = (2 * j) - 1;
-	_Array = new Quartet[_Len];
+	_Array = new Quartet[_Leng];
 
 	for(i = LeafPosition, j = 0; i < LeafPosition + SourceLen; i++, j++){
 		if(Source[j].IsEmpty())
@@ -84,11 +97,32 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	}
 }
 
-Quartet& SegmentTree::GetSegment(int Left, int Right){
-	// Falta validar que los valores sean mayores que 0 y ademas que LEft no sea mayor que el numero de valores, ajustar para cuando Right es mayor que el numero de valores
+Package& SegmentTree::GetSegment(int Left, int Right){
+	Quartet aux;
+	Package Answer;	
+
+	// Revisar limites
+	if(Left > _UsedLeafs){
+		Answer.SetRangeStatus(true);
+	}
+	if(End > _UsedLeafs){
+		Right = _UsedLeafs;
+	}
+
+	// Si el rango esta mal salgo del query
+	if(Answer.GetRangeStatus()){ 
+		return Answer;
+	}
 
 	// Quizas conviene que la funcion devuela un paquete (el mismo que tiene el objeto red) 
-	return _GetSegment(0, Left, Right);
+	aux = _GetSegment(0, Left, Right);
+
+	Answer.SetMin(aux.GetMax());
+	Answer.SetMax(aux.GetMax());
+	Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
+	Answer.SetQuantity(aux.GetQuantity());
+
+	return Answer;
 }
 
 Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
