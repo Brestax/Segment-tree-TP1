@@ -25,6 +25,8 @@ status_t ParseAll(istream & is, Red & Object){
 	if (st != ST_OK)
 		return st;
 	st = ParsedData(is, Object);
+	if(ProcessTree = true)
+		Object.ProcessTree();
 	return st;
 }
 
@@ -133,14 +135,23 @@ status_t ManageQuerys(istream & is, ostream & os, Red & Object){
 		}
 
 		// Se hacen las Querys
-		if(BigQuery){
-			Object.MakeBigQuery(Start, End);
-		}else if(ComplexQuery){
-			Object.MakeComplexQuery(Sensor, SensorsQuantity, Start, End);
+		if(ProcessTree = true){
+			if(BigQuery){
+				Object.MakeBigQueryTree(Start, End);
+			}else if(ComplexQuery){
+				Object.MakeComplexQueryTree(Sensor, SensorsQuantity, Start, End);
+			}else{
+				Object.MakeSmallQuery(*Sensor, Start, End);
+			}
 		}else{
-			Object.MakeSmallQuery(*Sensor, Start, End);
+			if(BigQuery){
+				Object.MakeBigQuery(Start, End);
+			}else if(ComplexQuery){
+				Object.MakeComplexQuery(Sensor, SensorsQuantity, Start, End);
+			}else{
+				Object.MakeSmallQuery(*Sensor, Start, End);
+			}
 		}
-
 
 
 		// Se impreime en el archivo el resultado

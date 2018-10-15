@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "Package.hpp"
 #include "Quartet.hpp"
 
 class SegmentTree{
@@ -23,7 +24,7 @@ private:
 	
 public:
 	SegmentTree(const ArrayElement &);
-	Quartet& GetSegment(int, int);
+	Package& GetSegment(int, int);
 	~SegmentTree();
 };
 

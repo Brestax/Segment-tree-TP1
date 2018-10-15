@@ -51,7 +51,7 @@ public:
 	void MakeBigQueryTree(int, int);
 	void MakeComplexQueryTree(string * &, int, int);
 	void AppendRow(Element * &);
-	void ProcesTrees(void);
+	void ProcessTrees(void);
 	~Red();
 
 };

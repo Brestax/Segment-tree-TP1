@@ -2,8 +2,9 @@
 	Archivo: SegmentTree.cpp
 */
 
-#include "SegmentTree.hpp"
+#include "Package.hpp"
 #include "Quartet.hpp"
+#include "SegmentTree.hpp"
 
 SegmentTree::SegmentTree(){
 	_Leng = 0;

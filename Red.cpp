@@ -301,13 +301,13 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 void Red::MakeBigQueryTree(int Start, in End){
 	Package *aux;
 
-	*aux = (*_Trees[_Amount]).GetSegment(Start,End);
-	Package *aux;
-
 	*aux = (*_Trees[_Amount]).GetSegment(Start, End);
 
 	*_Pack = *aux;
 	delete aux;
+}
+
+void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int End){
 
 }
 
