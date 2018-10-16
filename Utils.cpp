@@ -217,10 +217,17 @@ status_t ParsedData(istream & is, Red & Object){
 	while(getline(is, Read)){
 		// Se pasa el string a un streamstring para utilizar el operador >> para recibir los strings de caracter a caracter
 		stringstream StringRead(Read);
-		i = 0;
-		while((StringRead >> Number)){
-			Data[i] = Number;
-			if((StringRead >> ch) && (ch != LINE_DIVIDER)){
+
+		while(StringRead.peek() != '\n' && StringRead() != EOF){
+			i = 0;
+			if(StringRead.peek() == LINE_DIVIDER){
+				// habria que poner un flag de dato vacío
+				continue;
+			}
+			if(StringRead >> Number){
+				Data[i] = Number;
+			}
+			else {
 				delete[] Data;
 				return ST_ERROR_FILE_CORRUPTED;
 			}
