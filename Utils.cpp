@@ -7,10 +7,11 @@
 #include <string>
 #include <sstream>
 
-#include "Utils.hpp"
+#include "Element.hpp"
 #include "Red.hpp"
 #include "Error.hpp"
 #include "Package.hpp"
+#include "Utils.hpp"
 
 status_t ParseFirstLine(istream & is, Red & Object);
 status_t ParsedData(istream & is, Red & Object);
@@ -246,6 +247,89 @@ status_t ParsedData(istream & is, Red & Object){
 	delete [] Data;
 	return ST_OK;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+status_t ParsedData(istream & is, Red & Object){
+	string Read;
+	stringstream StringRead;
+	int i;
+	char ch;
+	double Number;
+	Element * Data;
+
+	Data = new Element[Object.GetLeng() + 1];	// El +1 representa el ultimo numero que es el promedio de todos los sensores
+
+	// Lee linea por linea
+	while(getline(is, Read)){
+		// Se pasa el string a un streamstring para utilizar el operador >> para recibir los strings de caracter a caracter
+		stringstream StringRead(Read);
+		for(i = 0; i < Object.GetLeng(); i++){
+			if(i < (Object.GetLeng() - 1)){
+				if((StringRead >> ch) && (ch == LINE_DIVIDER)){
+					Data[i].Empty();
+					continue;
+				}else{
+					StringRead.putback(ch);
+				}
+
+				if(StringRead >> Number){
+					Data[i].SetData(Number);
+				}else{
+					delete[] Data;
+					return ST_ERROR_FILE_CORRUPTED;					
+				}
+
+				if((StringRead >> ch) && (ch != LINE_DIVIDER)){
+					delete[] Data;
+					return ST_ERROR_FILE_CORRUPTED;					
+				}
+			}else{
+				if(StringRead >> Number)
+					Data[i].SetData(Number);
+				else
+					Data[i].Empty();
+			}
+		}
+
+		// Calculo el ultimo componente del vector que esta conformado de el promedio de los otros valores
+		for(int j = 0, i = 0; i < Object.GetLeng(); i++){
+			if(!(Data[i].IsEmpty()))
+				j++;
+		}
+		if(j != 0){
+			Data[Object.GetLeng()].SetData(0);
+			for(i = 0; i Object.GetLeng(); i++){
+				if(!(Data[i].IsEmpty()))
+					Data[Object.GetLeng()].SetData(Data[Object.GetLeng()].GetData() + (Data[i].GetData()/j));
+			}
+		}
+
+		Object.AppendRow(Data);
+	}
+
+	// Se borra el el array de doubles que se utilizo como auxiliar
+	delete [] Data;
+	return ST_OK;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 status_t DivideString(string & Read, string * & Parsed, char Divider){
 	string  aux;
