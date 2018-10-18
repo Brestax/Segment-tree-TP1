@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "Element.hpp"
 #include "Package.hpp"
 #include "Quartet.hpp"
 

@@ -2,6 +2,7 @@
 	Archivo: SegmentTree.cpp
 */
 
+#include "Element.hpp"
 #include "Package.hpp"
 #include "Quartet.hpp"
 #include "SegmentTree.hpp"
@@ -22,16 +23,15 @@ SegmentTree::SegmentTree(const SegmentTree & s){
 }
 
 SegmentTree::SegmentTree(const ArrayElement &Source){
-
 	int Pos, LeafPosition;
 	SourceLeng = Source.UsedSize();
 
+	// resuelvo los casos en que el largo es 0 o 1
 	if(!SourceLeng){
 		_Array = NULL;
 		_Leng = 0;
 		return;
 	}
-
 	if(SourceLen == 1){
 		_Array = new Quartet;
 		_Leng = 1;
@@ -44,6 +44,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		return;
 	}
 
+	// Busco el numero que sea exponente de dos mayor al numero de datos, ya que ese debe ser el numero de hojas del arbol
 	for(i = 0, j = 1; SourceLeng <= 2 * j; i++, j*=2){
 	}
 
@@ -51,6 +52,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	LeafPosition = (2 * j) - 1;
 	_Array = new Quartet[_Leng];
 
+	// Se llenan los nodos hoja con los valores del arreglo de elementos
 	for(i = LeafPosition, j = 0; i < LeafPosition + SourceLen; i++, j++){
 		if(Source[j].IsEmpty())
 			continue;
@@ -58,12 +60,27 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		_Array[i].SetMax(Source[j].GetData());
 		_Array[i].SetTotal(Source[j].GetData());
 		_Array[i].SetQuantity(1);
+		_Array[i].SetRight(j);
+		_Array[i].SetLeft(j + 1);
 	}
 
+	// Se rellena los nodos hoja vacios con sus extremos de su intervalo para poder llenar a los padres
+	for(; i < _Leng; i++, j++){
+		_Array[i].SetRight(j);
+		_Array[i].SetLeft(j + 1);		
+	}
+
+	// Calculo todos los campos de cada nodo que no sea hoja
 	for(i = LeafPosition - 1; i >= 0; --i){		
+		// Primero de todo seteo los extremos del segmento ya que hay que setear todos los nodos de la misma manera
+		_Array[i].SetRight(_Array[(i * 2) + 1].GetRight());
+		_Array[i].SetLeft(_Array[(i * 2) + 2].GetLeft());
+
+		// Si sus dos hijos estan vacios no se hace nada
 		if((_Array[(i * 2) + 1].GetInfinity()) && (_Array[(i * 2) + 2].GetInfinity()))
 			continue;
 
+		// Si uno de sus dos nodos hijos esta vacio se llena el nodo con los resultados de su otro hijo
 		if(!(_Array[(i * 2) + 1].GetInfinity()) && (_Array[(i * 2) + 2].GetInfinity())){
 			_Array[i].SetMin(_Array[(i * 2) + 1].GetMin());
 			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());			
@@ -71,7 +88,6 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 			_Array[i].SetQuantity(_Array[(i * 2) + 1].GetQuantity());
 			continue;
 		}
-
 		if((_Array[(i * 2) + 1].GetInfinity()) && !(_Array[(i * 2) + 2].GetInfinity())){
 			_Array[i].SetMin(_Array[(i * 2) + 1].GetMin());
 			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());			
@@ -81,6 +97,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 
 		}
 
+		// Llegado al caso de que los dos nodos hijo tienen datos, se resuelve cada campo por separado
 		if(_Array[(i * 2) + 1].GetMin() < _Array[(i * 2) + 2].GetMin()){
 			_Array[i].SetMin(_Array[(i * 2) + 1].GetMin());
 		}else{
@@ -115,9 +132,10 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 		return Answer;
 	}
 
-	// Quizas conviene que la funcion devuela un paquete (el mismo que tiene el objeto red) 
+	// LLAmamos a la funcion recursiva que es privada y se recive un Quartet 
 	aux = _GetSegment(0, Left, Right);
 
+	// Se transforman las soluciones de Quartet a Paquete
 	Answer.SetMin(aux.GetMax());
 	Answer.SetMax(aux.GetMax());
 	Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
@@ -130,18 +148,22 @@ Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
 	int Midle;
 	Quartet LeftPart, RightPart;
 
+	// Si el intervalo es exactamente el que se pide, se devuelve el quartet que se tiene
 	if((_Array[Node].GetLeft() == Left) && (_Array[Node].GetRight() == Right)){
 		return _Array[Node];
 	}
 
 	Midle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
 
+	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
 	if(Right <= Midle)
 		return _GetSegment(2 * Node + 1, Right, Left);
 
+	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
 	if(Left >= Midle)
 		return _GetSegment(2 * Node + 2, Right, Left);
 
+	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
 	LeftPart = _GetSegment(2 * Node + 1, Left, Midle);
 	RightPart = _GetSegment(2 * Node + 2, Midle, Right);
 

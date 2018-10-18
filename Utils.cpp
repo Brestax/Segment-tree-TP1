@@ -207,67 +207,7 @@ status_t ParseFirstLine(istream & is, Red & Object){
 status_t ParsedData(istream & is, Red & Object){
 	string Read;
 	stringstream StringRead;
-	int i;
-	char ch;
-	double Number;
-	double * Data;
-
-	Data = new double[Object.GetLeng() + 1];	// El +1 representa el ultimo numero que es el promedio de todos los sensores
-
-	// Lee linea por linea
-	while(getline(is, Read)){
-		// Se pasa el string a un streamstring para utilizar el operador >> para recibir los strings de caracter a caracter
-		stringstream StringRead(Read);
-
-		while(StringRead.peek() != '\n' && StringRead() != EOF){
-			i = 0;
-			if(StringRead.peek() == LINE_DIVIDER){
-				// habria que poner un flag de dato vacío
-				continue;
-			}
-			if(StringRead >> Number){
-				Data[i] = Number;
-			}
-			else {
-				delete[] Data;
-				return ST_ERROR_FILE_CORRUPTED;
-			}
-			i++;
-		}
-
-		// Calculo el ultimo componente del vector que esta conformado de el promedio de los otros valores
-		Data[Object.GetLeng()] = 0;
-		for(i = 0; i < Object.GetLeng(); i++)
-			Data[Object.GetLeng()] += Data[i]/Object.GetLeng();
-
-		Object.AppendRow(Data);
-	}
-
-	// Se borra el el array de doubles que se utilizo como auxiliar
-	delete [] Data;
-	return ST_OK;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-status_t ParsedData(istream & is, Red & Object){
-	string Read;
-	stringstream StringRead;
-	int i;
+	int i, j;
 	char ch;
 	double Number;
 	Element * Data;
@@ -280,25 +220,26 @@ status_t ParsedData(istream & is, Red & Object){
 		stringstream StringRead(Read);
 		for(i = 0; i < Object.GetLeng(); i++){
 			if(i < (Object.GetLeng() - 1)){
+				// Se lee un caracter para ver si se lee una como por si l dato esta vacio
 				if((StringRead >> ch) && (ch == LINE_DIVIDER)){
 					Data[i].Empty();
 					continue;
 				}else{
 					StringRead.putback(ch);
 				}
-
+				// Se verifica si se lee un numero
 				if(StringRead >> Number){
-					Data[i].SetData(Number);
+					Data[i] = Number;
 				}else{
 					delete[] Data;
 					return ST_ERROR_FILE_CORRUPTED;					
 				}
-
+				// Se verifica si se lee una coma
 				if((StringRead >> ch) && (ch != LINE_DIVIDER)){
 					delete[] Data;
 					return ST_ERROR_FILE_CORRUPTED;					
 				}
-			}else{
+			}else{	// En el caso del ultimo numero de la linea, se lee un numero y se ignora lo que hay despues de este, es decir que si no se leyo se lo indica como vacio
 				if(StringRead >> Number)
 					Data[i].SetData(Number);
 				else
@@ -307,7 +248,7 @@ status_t ParsedData(istream & is, Red & Object){
 		}
 
 		// Calculo el ultimo componente del vector que esta conformado de el promedio de los otros valores
-		for(int j = 0, i = 0; i < Object.GetLeng(); i++){
+		for(j = 0, i = 0; i < Object.GetLeng(); i++){
 			if(!(Data[i].IsEmpty()))
 				j++;
 		}
@@ -315,7 +256,7 @@ status_t ParsedData(istream & is, Red & Object){
 			Data[Object.GetLeng()].SetData(0);
 			for(i = 0; i Object.GetLeng(); i++){
 				if(!(Data[i].IsEmpty()))
-					Data[Object.GetLeng()].SetData(Data[Object.GetLeng()].GetData() + (Data[i].GetData()/j));
+					Data[Object.GetLeng()] = Data[Object.GetLeng()].GetData() + (Data[i].GetData()/j);
 			}
 		}
 
@@ -326,11 +267,6 @@ status_t ParsedData(istream & is, Red & Object){
 	delete [] Data;
 	return ST_OK;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 status_t DivideString(string & Read, string * & Parsed, char Divider){
 	string  aux;
 	//stringstream StringRead;

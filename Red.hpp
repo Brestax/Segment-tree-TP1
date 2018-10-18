@@ -1,4 +1,3 @@
-
 /*
 	Archivo: Red.cpp
 */

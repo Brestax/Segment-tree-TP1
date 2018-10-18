@@ -2,7 +2,6 @@
 	Archivo: Quartet.hpp
 */
 
-
 #ifndef _ARRAYELEMENT_HPP_INCLUDED
 #define _ARRAYELEMENT_HPP_INCLUDED
 
@@ -36,7 +35,7 @@ public:
 	void SetLeft(int);
 	void SetRight(int);
 	void ToInfinity(void);
-	void Clear();	// Esta funcion setea todos los numeros en cero y el flag en true
+	void Clear();			// Esta funcion setea todos los numeros en cero y el flag en true
 	Quartet& operator=(const Quartet &);
 	Quartet& Merge(const Quartet &);
 	~Quartet();

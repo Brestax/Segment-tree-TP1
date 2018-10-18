@@ -119,7 +119,7 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 		return;
 	}
 
-		// Verifio si el intervalo esta en los Arreglos
+	// Verifio si el intervalo esta en los Arreglos
 	if(Start > _Sensors[i]->UsedSize()){
 		_Pack->SetRangeStatus(true);
 	}
@@ -135,22 +135,27 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 		return;
 	}
 
-	aux->SetQuantity(FinalMark - Start);
+	// Busco un dato que no este vacio
+	j = 0;
+	while(!((*_Sensors[i])[Start + j]).IsEmpty())
+		j++;
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
 	aux->SetMin((*_Sensors[i])[Start]);
 	aux->SetMax((*_Sensors[i])[Start]);
 
 	for (j = Start; j < FinalMark; j++){
-		aux->SetAverage(aux->GetAverage() + (*_Sensors[i])[j] / aux->GetQuantity());
-	//	std::cout << aux->GetAverage() << std::endl;
-		if((*_Sensors[i])[j] < aux->GetMin()){
-			aux->SetMin((*_Sensors[i])[j]);
-		}
-		if((*_Sensors[i])[j] > aux->GetMax()){
-			aux->SetMax((*_Sensors[i])[j]);
+		if(!((*_Sensors[i])[j]).IsEmpty()){
+			if(((*_Sensors[i])[j]).GetData() < aux->GetMin())
+				aux->SetMin(((*_Sensors[i])[j]).GetData());
+			if(((*_Sensors[i])[j]).GetData() > aux->GetMax())
+				aux->SetMax(((*_Sensors[i])[j]).GetData());
+			aux->SetQuantity(aux->GetQuantity() + 1);
+			aux->SetAverage(aux->GetAverage() + ((*_Sensors[i])[j]).GetData());
 		}
 	}
+
+	aux->SetAverage(aux->GetAverage() / aux->GetQuantity());
 
 	*_Pack = *aux;
 	delete aux;
@@ -178,22 +183,28 @@ void Red::MakeBigQuery(int Start, int End){
 	if(_Pack->GetRangeStatus())
 		return;
 
-	aux->SetQuantity(_Amount * (FinalMark - Start));
+	// Busco un dato que no este vacio
+	j = 0;
+	while(!((*_Sensors[_Amount])[Start + j]).IsEmpty())
+		j++;
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
 	aux->SetMin((*_Sensors[_Amount])[Start]);
 	aux->SetMax((*_Sensors[_Amount])[Start]);
 
-	//
-	for (int j = Start; j < FinalMark; ++j){
-		aux->SetAverage(aux->GetAverage() + (*_Sensors[_Amount])[j] / aux->GetQuantity());
-		if((*_Sensors[_Amount])[j] < aux->GetMin()){
-			aux->SetMin((*_Sensors[_Amount])[j]);
-		}
-		if((*_Sensors[_Amount])[j] > aux->GetMax()){
-			aux->SetMax((*_Sensors[_Amount])[j]);
+	for (j = Start; j < FinalMark; j++){
+		if(!((*_Sensors[_Amount])[j]).IsEmpty()){
+			if(((*_Sensors[_Amount])[j]).GetData() < aux->GetMin())
+				aux->SetMin(((*_Sensors[_Amount])[j]).GetData());
+			if(((*_Sensors[_Amount])[j]).GetData() > aux->GetMax())
+				aux->SetMax(((*_Sensors[_Amount])[j]).GetData());
+			aux->SetQuantity(aux->GetQuantity() + 1);
+			aux->SetAverage(aux->GetAverage() + ((*_Sensors[_Amount])[j]).GetData());
 		}
 	}
+
+	aux->SetAverage(aux->GetAverage() / aux->GetQuantity());
+	
 
 	*_Pack = *aux;
 	delete aux;
@@ -279,6 +290,7 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 
 	aux = new Package;
 
+	// Comparo los strings para buscar el sensor que me pide
 	aux->SetIdStatus(true);
 	for(int i = 0; i < _Amount; i++){
 		if(!(_Ids[i].compare(ID))){
@@ -286,12 +298,13 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 			break;
 		}
 	}
-	if(aux->GetIdStatus()){
+	if(aux->GetIdStatus()){		// Si el sensor no esta en la lista devuelvo el paquete con el flag apropiado
 		*_Pack = *aux;
 		delete aux;
 		return;
 	}	
 
+	// Le pido al segmentree la respuesta para el segmento entre Start y End
 	*aux = (*_Trees[i]).GetSegment(Start, End);
 
 	*_Pack = *aux;
@@ -301,6 +314,7 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 void Red::MakeBigQueryTree(int Start, in End){
 	Package *aux;
 
+	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)
 	*aux = (*_Trees[_Amount]).GetSegment(Start, End);
 
 	*_Pack = *aux;

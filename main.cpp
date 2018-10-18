@@ -21,7 +21,7 @@ using namespace std;
 static void opt_input(string const &);
 static void opt_output(string const &);
 static void opt_data(string const &);
-static void opt_process(string const &arg);
+static void opt_process(string const &arg); 
 static void opt_help(string const &);
 
 /********************* Elementos golbales *********************/
@@ -135,12 +135,6 @@ static void opt_data(string const &arg){
 	}
 }
 
-static void opt_help(string const &arg){
-	cout << "cmdline -d file [-i file] [-o file]"
-	     << endl;
-	exit(0);
-}
-
 static void opt_process(string const &arg){
 
 	if (arg == "-") {
@@ -152,7 +146,12 @@ static void opt_process(string const &arg){
 	}else{
 		ProcessTree = true;
 	}
+}
 
+static void opt_help(string const &arg){
+	cout << "cmdline -d file [-i file] [-o file]"
+	     << endl;
+	exit(0);
 }
 
 
