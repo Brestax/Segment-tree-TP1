@@ -24,7 +24,7 @@ SegmentTree::SegmentTree(const SegmentTree & s){
 
 SegmentTree::SegmentTree(const ArrayElement &Source){
 	int Pos, LeafPosition;
-	SourceLeng = Source.UsedSize();
+	int SourceLeng = Source.UsedSize();
 
 	// resuelvo los casos en que el largo es 0 o 1
 	if(!SourceLeng){
@@ -32,7 +32,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		_Leng = 0;
 		return;
 	}
-	if(SourceLen == 1){
+	if(SourceLeng == 1){
 		_Array = new Quartet;
 		_Leng = 1;
 		if(!(Array[0].IsEmpty())){
@@ -53,7 +53,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	_Array = new Quartet[_Leng];
 
 	// Se llenan los nodos hoja con los valores del arreglo de elementos
-	for(i = LeafPosition, j = 0; i < LeafPosition + SourceLen; i++, j++){
+	for(i = LeafPosition, j = 0; i < LeafPosition + SourceLeng; i++, j++){
 		if(Source[j].IsEmpty())
 			continue;
 		_Array[i].SetMin(Source[j].GetData());
