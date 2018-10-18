@@ -145,7 +145,7 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 }
 
 Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
-	int Midle;
+	int Middle;
 	Quartet LeftPart, RightPart;
 
 	// Si el intervalo es exactamente el que se pide, se devuelve el quartet que se tiene
@@ -153,19 +153,19 @@ Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
 		return _Array[Node];
 	}
 
-	Midle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
+	Middle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
 
 	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
-	if(Right <= Midle)
+	if(Right <= Middle)
 		return _GetSegment(2 * Node + 1, Right, Left);
 
 	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
-	if(Left >= Midle)
+	if(Left >= Middle)
 		return _GetSegment(2 * Node + 2, Right, Left);
 
 	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
-	LeftPart = _GetSegment(2 * Node + 1, Left, Midle);
-	RightPart = _GetSegment(2 * Node + 2, Midle, Right);
+	LeftPart = _GetSegment(2 * Node + 1, Left, Middle);
+	RightPart = _GetSegment(2 * Node + 2, Middle, Right);
 
 	return LeftPart.Merge(RightPart);
 }
