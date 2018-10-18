@@ -136,10 +136,13 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 	aux = _GetSegment(0, Left, Right);
 
 	// Se transforman las soluciones de Quartet a Paquete
-	Answer.SetMin(aux.GetMax());
-	Answer.SetMax(aux.GetMax());
-	Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
-	Answer.SetQuantity(aux.GetQuantity());
+	if(!aux.GetInfinity()){
+		Answer.SetMin(aux.GetMax());
+		Answer.SetMax(aux.GetMax());
+		Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
+		Answer.SetQuantity(aux.GetQuantity());
+	}else
+		Answer.SetRangeStatus(true);
 
 	return Answer;
 }

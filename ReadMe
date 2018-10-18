@@ -1,0 +1,12 @@
+/*
+	Archivo: ReadMe
+*/
+Marcar una x entre los parentecis si se completo
+
+Cosas por hacer:
+() - Hacer funcion MakeComplexQueryTree 
+() - Correjir funcion MakeCmplexQuery
+() - Correjir lo que pasa si todos lo elementos estan vacios cuando no se hace con segmenttree
+() - 
+
+
