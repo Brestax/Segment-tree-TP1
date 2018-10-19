@@ -38,6 +38,7 @@ public:
 	void SetQueryStatus(bool);
 	void SetIdStatus(bool);
 	void Clear();	// Esta funcion setea todos los numeros en cero y los bools en false
+	Package& Merge(const Package &);
 	Package& operator=(const Package &);
 	~Package();
 };
