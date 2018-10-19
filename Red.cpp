@@ -287,12 +287,13 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 
 void Red::MakeSmallQueryTree(string ID, int Start, int End){
 	Package *aux;
+	int i;
 
 	aux = new Package;
 
 	// Comparo los strings para buscar el sensor que me pide
 	aux->SetIdStatus(true);
-	for(int i = 0; i < _Amount; i++){
+	for(i = 0; i < _Amount; i++){
 		if(!(_Ids[i].compare(ID))){
 			aux->SetIdStatus(false);
 			break;
@@ -322,7 +323,58 @@ void Red::MakeBigQueryTree(int Start, in End){
 }
 
 void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int End){
+	Package *aux;
+	Quartet
+	int i, j, k;
 
+	// Se crea un paquete por cada sensor y luego se los une en uno solo
+	aux = new Package[SensorQuantity];
+
+	for (i = 0; i < SensorQuantity; ++i){
+
+		for (k = 0; k < i; ++k){
+			if(!(ID[i].compare(ID[k])))
+				aux->SetQueryStatus(true);
+		}
+
+		// Si se repite un Id en el query se devuelve el paquete con el flag indicándolo
+		if(aux->GetQueryStatus()){
+			for(; i > 0; i--){
+				aux[i-1] = aux[i-1].Merge(aux[i]);
+			}
+			*_Pack = *aux;
+			delete aux;
+			return;
+		}
+
+		aux->SetIdStatus(true);
+		// Busco si el id indicado se encuentra en los ids cargados
+		for (j = 0; j < _Amount; ++j){
+			if(!(_Ids[j].compare(ID[i]))){
+				aux->SetIdStatus(false);
+				break;
+			}
+		}
+		// En caso de que no esté se devuelve el paquete con los flags correspondientes
+		if(aux->GetIdStatus()){
+			for(; i > 0; i--){
+				aux[i-1] = aux[i-1].Merge(aux[i]);
+			}
+			*_Pack = *aux;
+			delete aux;
+			return;
+		}
+
+		aux[i] = _Trees[j]->GetSegment(Start, End);
+	}
+
+	// Se unen los paquetes en uno solo (aux[0])
+	for(; i > 0; i--){
+		aux[i-1] = aux[i-1].Merge(aux[i]);
+	}
+
+	*_Pack = *aux;
+	delete[] aux;
 }
 
 void Red::AppendRow(Element * & Data){
