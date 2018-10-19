@@ -5,9 +5,6 @@
 #ifndef _ARRAYELEMENT_HPP_INCLUDED
 #define _ARRAYELEMENT_HPP_INCLUDED
 
-#include <iostream>
-#include <cstdlib>
-
 class Quartet{
 
 private:
@@ -39,6 +36,6 @@ public:
 	Quartet& operator=(const Quartet &);
 	Quartet& Merge(const Quartet &);
 	~Quartet();
-}
+};
 
 #endif

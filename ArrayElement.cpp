@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "Element"
+#include "Element.hpp"
 #include "ArrayElement.hpp"
 
 #define INIT_LENG 10
@@ -69,7 +69,7 @@ Element& ArrayElement::operator[](int pos) const{
 
 void ArrayElement::Append(const Element & e){
 	int NewSize = _Leng * 2;
-	double * aux;
+	Element * aux;
 
 	//Si el Array no esta lleno, agrego el nuevo elemento
 	if(_Used < _Leng){

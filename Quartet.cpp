@@ -13,7 +13,7 @@ Quartet::Quartet(){
 	_InfinityStatus = true;	
 }
 
-Quartet::Quartet(conts Quartet & q){
+Quartet::Quartet(const Quartet & q){
 	if(!(_InfinityStatus = q._InfinityStatus)){
 		_Min = q._Min;
 		_Max = q._Max;
@@ -100,7 +100,7 @@ Quartet& Quartet::operator=(const Quartet & q){
 }
 
 Quartet& Quartet::Merge(const Quartet & q){
-	Quartet aux;
+	static Quartet aux;
 
 	if(_Right == q._Left){
 		aux._Left = _Left;
@@ -125,7 +125,7 @@ Quartet& Quartet::Merge(const Quartet & q){
 
 	if(_InfinityStatus && !(q._InfinityStatus)){
 		aux._InfinityStatus = false;
-		aux._Min = q._Min
+		aux._Min = q._Min;
 		aux._Max = q._Max;
 		aux._Total = q._Total;
 		aux._Quantity = q._Quantity;
@@ -149,27 +149,4 @@ Quartet& Quartet::Merge(const Quartet & q){
 
 Quartet::~Quartet(){
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -6,8 +6,6 @@
 #define _UTILS_HPP_INCLUDED_
 
 #include <iostream>
-#include <cstdlib>
-#include <string>
 
 #include "Error.hpp"
 #include "Red.hpp"

@@ -2,8 +2,8 @@
 	Archivo: ArrayElement.hpp
 */
 
-#ifndef _ARRAYELEMENT_HPP_INCLUDED
-#define _ARRAYELEMENT_HPP_INCLUDED
+#ifndef _ARRAYELEMENT_HPP_INCLUDED_
+#define _ARRAYELEMENT_HPP_INCLUDED_
 
 #include <iostream>
 #include <cstdlib>

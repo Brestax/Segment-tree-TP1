@@ -7,7 +7,7 @@
 #include "Quartet.hpp"
 #include "SegmentTree.hpp"
 
-Quartet& _GetSegment(int, int, int);
+
 
 SegmentTree::SegmentTree(){
 	_Leng = 0;
@@ -25,7 +25,8 @@ SegmentTree::SegmentTree(const SegmentTree & s){
 }
 
 SegmentTree::SegmentTree(const ArrayElement &Source){
-	int Pos, LeafPosition;
+	int LeafPosition;
+	int i, j;
 	int SourceLeng = Source.UsedSize();
 
 	// resuelvo los casos en que el largo es 0 o 1
@@ -37,7 +38,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	if(SourceLeng == 1){
 		_Array = new Quartet;
 		_Leng = 1;
-		if(!(Array[0].IsEmpty())){
+		if(!(Source[0].IsEmpty())){
 			_Array[0].SetMin(Source[0].GetData());
 			_Array[0].SetMax(Source[0].GetData());
 			_Array[0].SetTotal(Source[0].GetData());
@@ -119,13 +120,13 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 
 Package& SegmentTree::GetSegment(int Left, int Right){
 	Quartet aux;
-	Package Answer;	
+	static Package Answer;
 
 	// Revisar limites
 	if(Left > _UsedLeafs){
 		Answer.SetRangeStatus(true);
 	}
-	if(End > _UsedLeafs){
+	if(Left > _UsedLeafs){
 		Right = _UsedLeafs;
 	}
 
@@ -134,7 +135,7 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 		return Answer;
 	}
 
-	// LLAmamos a la funcion recursiva que es privada y se recive un Quartet 
+	// LLAmamos a la funcion recursiva que es privada y se recibe un Quartet 
 	aux = _GetSegment(0, Left, Right);
 
 	// Se transforman las soluciones de Quartet a Paquete
@@ -145,12 +146,12 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 		Answer.SetQuantity(aux.GetQuantity());
 	}else
 		Answer.SetRangeStatus(true);
-
+	
 	return Answer;
 }
 
 SegmentTree::~SegmentTree(){
-	if(_Array == Null)
+	if(_Array == NULL)
 		delete [] _Array;
 }
 

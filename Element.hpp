@@ -20,7 +20,7 @@ public:
 	bool IsEmpty(void);
 	void SetData(double);
 	void Empty(void);	// Vacia el dato de lo que tenga
-	Element& operator=(conts Element &);
+	Element& operator=(const Element &);
 	Element& operator=(double);
 	~Element();
 };

@@ -94,30 +94,25 @@ void Package::Clear(void){
 }
 
 Package & Package::Merge(const Package & p){
-	Package aux;
 
 	if(_BadId || p._BadId)
-		aux._BadId = true;
+		_BadId = true;
 	if(_BadRange || p._BadRange)
-		aux._BadRange = true;
+		_BadRange = true;
 	if(_BadQuery || p._BadQuery)
-		aux._BadQuery = true;
+		_BadQuery = true;
 
 	if(_Min > p._Min)
-		aux._Min = p._Min;
-	else
-		aux._Min = _Min;
+		_Min = p._Min;
 
 	if(_Max < p._Max)
-		aux._Max = p._Max;
-	else
-		aux._Max = _Max;
+		_Max = p._Max;
 
-	aux._Quantity = _Quantity + p._Quantity;
-
-	aux._Average = (_Quantity * _Average + p._Quantity * p._Average) / aux._Quantity;
-
-	return aux;
+	_Average = (_Quantity * _Average + p._Quantity * p._Average) / (_Quantity + p._Quantity);
+	
+	_Quantity += p._Quantity;
+	
+	return *this;
 }
 
 Package & Package::operator=(const Package & p){
