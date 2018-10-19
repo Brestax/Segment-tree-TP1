@@ -11,8 +11,8 @@ FLAGS = -W -Wall -g -pedantic
 
 all: ejec clear
 
-ejec: main.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
-	$(CC) $(FLAGS) -o tp0 main.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
+ejec: main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o SegmentTree.o Element.o Quartet.o
+	$(CC) $(FLAGS) -o tp0 main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
 
 main.o: main.cpp Cmdline.hpp Red.hpp Utils.hpp Error.hpp
 	$(CC) $(FLAGS) -o main.o -c main.cpp
@@ -20,8 +20,8 @@ main.o: main.cpp Cmdline.hpp Red.hpp Utils.hpp Error.hpp
 Cmdline.o: Cmdline.cpp Cmdline.hpp
 	$(CC) $(FLAGS) -o Cmdline.o -c Cmdline.cpp
 
-ArrayDouble.o: ArrayDouble.cpp ArrayDouble.hpp
-	$(CC) $(FLAGS) -o ArrayDouble.o -c ArrayDouble.cpp
+ArrayElement.o: ArrayElement.cpp ArrayElement.hpp Element.hpp
+	$(CC) $(FLAGS) -o ArrayElement.o -c ArrayElement.cpp
 
 Error.o: Error.cpp Error.hpp
 	$(CC) $(FLAGS) -o Error.o -c Error.cpp
@@ -29,26 +29,35 @@ Error.o: Error.cpp Error.hpp
 Package.o: Package.cpp Package.hpp
 	$(CC) $(FLAGS) -o Package.o -c Package.cpp
 
-Red.o: Red.cpp Red.hpp Package.hpp ArrayDouble.hpp
+Red.o: Red.cpp Red.hpp Package.hpp ArrayElement.hpp Utils.hpp Element.hpp
 	$(CC) $(FLAGS) -o Red.o -c Red.cpp
 
 Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp
 	$(CC) $(FLAGS) -o Utils.o -c Utils.cpp
+	
+SegmentTree.o: SegmentTree.cpp SegmentTree.hpp Quartet.hpp Package.hpp Element.hpp
+	$(CC) $(FLAGS) -o SegmetTree.o -c SegmentTree.c
+
+Element.o: Element.cpp Element.hpp
+	$(CC) $(FLAGS) -o Element.o -c Element.cpp
+	
+Quartet.o: Quartet.cpp Quartet.hpp
+	$(CC) $(FLAGS) -o Quartet.o -c Quartet.cpp
 
 
 prueba: ejecprueba clear
 
-ejecprueba: Prueba.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
-	$(CC) $(FLAGS) -o ejecprueba Prueba.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
+ejecprueba: Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
+	$(CC) $(FLAGS) -o ejecprueba Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
 
-Prueba.o: Prueba.cpp Cmdline.hpp Utils.hpp Error.hpp Red.hpp ArrayDouble.hpp
+Prueba.o: Prueba.cpp Cmdline.hpp Utils.hpp Error.hpp Red.hpp ArrayElement.hpp
 	$(CC) $(FLAGS) -o Prueba.o -c Prueba.cpp
 
 Cmdline.o: Cmdline.cpp Cmdline.hpp
 	$(CC) $(FLAGS) -o Cmdline.o -c Cmdline.cpp
 
-ArrayDouble.o: ArrayDouble.cpp ArrayDouble.hpp
-	$(CC) $(FLAGS) -o ArrayDouble.o -c ArrayDouble.cpp
+ArrayElement.o: ArrayElement.cpp ArrayElement.hpp
+	$(CC) $(FLAGS) -o ArrayElement.o -c ArrayElement.cpp
 
 Error.o: Error.cpp Error.hpp
 	$(CC) $(FLAGS) -o Error.o -c Error.cpp
@@ -56,7 +65,7 @@ Error.o: Error.cpp Error.hpp
 Package.o: Package.cpp Package.hpp
 	$(CC) $(FLAGS) -o Package.o -c Package.cpp
 
-Red.o: Red.cpp Red.hpp Package.hpp ArrayDouble.hpp Utils.hpp
+Red.o: Red.cpp Red.hpp Package.hpp ArrayElement.hpp Utils.hpp
 	$(CC) $(FLAGS) -o Red.o -c Red.cpp
 
 Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp
