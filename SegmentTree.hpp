@@ -21,7 +21,6 @@ private:
 
 	SegmentTree();
 	SegmentTree(const SegmentTree &);
-	Quartet& _GetSegment(int, int, int);
 	
 public:
 	SegmentTree(const ArrayElement &);

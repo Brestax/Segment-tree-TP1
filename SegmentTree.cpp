@@ -7,6 +7,8 @@
 #include "Quartet.hpp"
 #include "SegmentTree.hpp"
 
+Quartet& _GetSegment(int, int, int);
+
 SegmentTree::SegmentTree(){
 	_Leng = 0;
 	_UsedLeafs = 0;
@@ -147,7 +149,13 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 	return Answer;
 }
 
-Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
+SegmentTree::~SegmentTree(){
+	if(_Array == Null)
+		delete [] _Array;
+}
+
+
+Quartet& _GetSegment(int Node, int Left, int Right){
 	int Middle;
 	Quartet LeftPart, RightPart;
 
@@ -172,11 +180,3 @@ Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
 
 	return LeftPart.Merge(RightPart);
 }
-
-SegmentTree::~SegmentTree(){
-	if(_Array == Null)
-		delete [] _Array;
-}
-
-
-
