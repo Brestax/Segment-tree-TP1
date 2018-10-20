@@ -7,7 +7,7 @@
 ## ejecprueba para el archivo de pruebas
 
 CC = g++
-FLAGS = -W -Wall -g -pedantic
+FLAGS = -Wall -g -pedantic #-W 		#Para que no moleste con lo violeta
 
 all: ejec clear
 
@@ -29,14 +29,14 @@ Error.o: Error.cpp Error.hpp
 Package.o: Package.cpp Package.hpp
 	$(CC) $(FLAGS) -o Package.o -c Package.cpp
 
-Red.o: Red.cpp Red.hpp Package.hpp ArrayElement.hpp Utils.hpp Element.hpp
+Red.o: Red.cpp Red.hpp Package.hpp ArrayElement.hpp SegmentTree.hpp Element.hpp 
 	$(CC) $(FLAGS) -o Red.o -c Red.cpp
 
-Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp
+Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp Element.hpp
 	$(CC) $(FLAGS) -o Utils.o -c Utils.cpp
 	
 SegmentTree.o: SegmentTree.cpp SegmentTree.hpp Quartet.hpp Package.hpp Element.hpp
-	$(CC) $(FLAGS) -o SegmetTree.o -c SegmentTree.c
+	$(CC) $(FLAGS) -o SegmetTree.o -c SegmentTree.cpp
 
 Element.o: Element.cpp Element.hpp
 	$(CC) $(FLAGS) -o Element.o -c Element.cpp
@@ -68,7 +68,7 @@ Package.o: Package.cpp Package.hpp
 Red.o: Red.cpp Red.hpp Package.hpp ArrayElement.hpp Utils.hpp
 	$(CC) $(FLAGS) -o Red.o -c Red.cpp
 
-Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp
+Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp Element.hpp
 	$(CC) $(FLAGS) -o Utils.o -c Utils.cpp
 
 

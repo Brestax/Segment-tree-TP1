@@ -34,7 +34,7 @@ public:
 	void ToInfinity(void);
 	void Clear();			// Esta funcion setea todos los numeros en cero y el flag en true
 	Quartet& operator=(const Quartet &);
-	Quartet& Merge(const Quartet &);
+	Quartet Merge(const Quartet &);
 	~Quartet();
 };
 

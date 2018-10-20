@@ -99,7 +99,7 @@ Quartet& Quartet::operator=(const Quartet & q){
 	return *this;
 }
 
-Quartet& Quartet::Merge(const Quartet & q){
+Quartet Quartet::Merge(const Quartet & q){
 	static Quartet aux;
 
 	if(_Right == q._Left){

@@ -41,7 +41,7 @@ static ostream *oss = 0;
 static fstream dfs;
 static fstream ifs;
 static fstream ofs;
-static bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o no
+extern bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o no
 
 /********************* Cuerpo principal *********************/
 
@@ -139,9 +139,9 @@ static void opt_process(string const &arg){
 
 	if (arg == "-") {
 		ProcessTree = true;	// Establezco la opcion estandar como el proceso utilizando el SegmentTree
-	}else if(arg = OPTION_TREE){
+	}else if(arg == OPTION_TREE){
 		ProcessTree = true;
-	}else if(arg = OPTION_ITERATION){
+	}else if(arg == OPTION_ITERATION){
 		ProcessTree = false;
 	}else{
 		ProcessTree = true;

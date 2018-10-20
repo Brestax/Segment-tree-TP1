@@ -116,7 +116,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	}
 }
 
-Package& SegmentTree::GetSegment(int Left, int Right){
+Package SegmentTree::GetSegment(int Left, int Right){
 	Quartet aux;
 	static Package Answer;
 
@@ -148,9 +148,7 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 	return Answer;
 }
 
-
-
-Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
+Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 	int Middle;
 	Quartet LeftPart, RightPart;
 

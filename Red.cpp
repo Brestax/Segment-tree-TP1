@@ -10,7 +10,7 @@ using namespace std;
 #include "Element.hpp"
 #include "ArrayElement.hpp"
 #include "Package.hpp"
-#include "Utils.hpp"
+#include "SegmentTree.hpp"
 #include "Red.hpp"
 
 Red::Red(){
@@ -148,8 +148,8 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 	}
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[i])[j]);
-	aux->SetMax((*_Sensors[i])[j]);
+	aux->SetMin(((*_Sensors[i])[j]).GetData());
+	aux->SetMax(((*_Sensors[i])[j]).GetData());
 
 	for (j = Start; j < FinalMark; j++){
 		if(!((*_Sensors[i])[j]).IsEmpty()){
@@ -171,6 +171,7 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 void Red::MakeBigQuery(int Start, int End){
 	int FinalMark;		// Indica donde termina la iteracion
 	Package * aux;
+	int j;
 
 	aux = new Package;
 
@@ -204,8 +205,8 @@ void Red::MakeBigQuery(int Start, int End){
 	}
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[_Amount])[j]);
-	aux->SetMax((*_Sensors[_Amount])[j]);
+	aux->SetMin(((*_Sensors[_Amount])[j]).GetData());
+	aux->SetMax(((*_Sensors[_Amount])[j]).GetData());
 
 	for (j = Start; j < FinalMark; j++){
 		if(!((*_Sensors[_Amount])[j]).IsEmpty()){
@@ -294,8 +295,8 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 				continue;
 			}else{
 				aux->SetRangeStatus(false);
-				aux->SetMin((*_Sensors[j])[k]);
-				aux->SetMax((*_Sensors[j])[k]);
+				aux->SetMin(((*_Sensors[j])[k]).GetData());
+				aux->SetMax(((*_Sensors[j])[k]).GetData());
 			}
 		}
 
@@ -345,19 +346,13 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 	delete aux;
 }
 
-void Red::MakeBigQueryTree(int Start, in End){
-	Package *aux;
-
+void Red::MakeBigQueryTree(int Start, int End){
 	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)
-	*aux = (*_Trees[_Amount]).GetSegment(Start, End);
-
-	*_Pack = *aux;
-	delete aux;
+	*_Pack = (*_Trees[_Amount]).GetSegment(Start, End);
 }
 
 void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int End){
 	Package *aux;
-	Quartet
 	int i, j, k;
 
 	// Se crea un paquete por cada sensor y luego se los une en uno solo
@@ -416,10 +411,10 @@ void Red::AppendRow(Element * & Data){
 	}
 }
 
-void ProcesTrees(void){
+void Red::ProcessTrees(void){
 	_Trees = new SegmentTree*[_Amount + 1];
 	for(int i = 0; i <= _Amount; ++i){
-		*(_Trees[i]) = new SegmentTree(*(_Sensors[i]));
+		_Trees[i] = new SegmentTree(*(_Sensors[i]));
 	}
 }
 

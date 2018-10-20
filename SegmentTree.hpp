@@ -22,11 +22,11 @@ private:
 
 	SegmentTree();
 	SegmentTree(const SegmentTree &);
-	Quartet& _GetSegment(int, int, int);
+	Quartet _GetSegment(int, int, int);
 	
 public:
 	SegmentTree(const ArrayElement &);
-	Package& GetSegment(int, int);
+	Package GetSegment(int, int);
 	~SegmentTree();
 };
 

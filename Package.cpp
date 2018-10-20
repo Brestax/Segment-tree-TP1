@@ -93,7 +93,20 @@ void Package::Clear(void){
 	_BadId = false;
 }
 
-Package & Package::Merge(const Package & p){
+Package & Package::operator=(const Package & p){
+
+	_Average = p._Average;
+	_Min = p._Min;
+	_Max = p._Max;
+	_Quantity = p._Quantity;
+	_BadRange = p._BadRange;
+	_BadQuery = p._BadQuery;
+	_BadId = p._BadId;
+
+	return *this;
+}
+
+Package Package::Merge(const Package & p){
 
 	if(_BadId || p._BadId)
 		_BadId = true;
@@ -112,19 +125,6 @@ Package & Package::Merge(const Package & p){
 	
 	_Quantity += p._Quantity;
 	
-	return *this;
-}
-
-Package & Package::operator=(const Package & p){
-
-	_Average = p._Average;
-	_Min = p._Min;
-	_Max = p._Max;
-	_Quantity = p._Quantity;
-	_BadRange = p._BadRange;
-	_BadQuery = p._BadQuery;
-	_BadId = p._BadId;
-
 	return *this;
 }
 

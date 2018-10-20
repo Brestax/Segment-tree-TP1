@@ -39,6 +39,7 @@ public:
 	void SetIdStatus(bool);
 	void Clear();	// Esta funcion setea todos los numeros en cero y los bools en false
 	Package& operator=(const Package &);
+	Package Merge(const Package &);
 	~Package();
 };
 

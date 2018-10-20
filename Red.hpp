@@ -13,7 +13,7 @@ using namespace std;
 #include "Element.hpp"
 #include "ArrayElement.hpp"
 #include "Package.hpp"
-#include "Utils.hpp"
+#include "SegmentTree.hpp"
 
 #define MSG_BAD_RANGE "NO DATA"
 #define MSG_BAD_QUERY "BAD QUERY"
@@ -48,7 +48,7 @@ public:
 	void MakeComplexQuery(string * &, int, int, int);	//Le paso un vector de strings con los Ids de los sensores, la cantidad de sensores y los rangos para el query
 	void MakeSmallQueryTree(string, int, int);			
 	void MakeBigQueryTree(int, int);
-	void MakeComplexQueryTree(string * &, int, int);
+	void MakeComplexQueryTree(string * &, int, int, int);
 	void AppendRow(Element * &);
 	void ProcessTrees(void);
 	~Red();

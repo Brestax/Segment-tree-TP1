@@ -17,6 +17,8 @@ status_t ParseFirstLine(istream & is, Red & Object);
 status_t ParsedData(istream & is, Red & Object);
 status_t DivideString(string & Read, string * & Parsed, char Divider);
 
+extern bool ProcessTree;
+
 // Se llama para parcear la primera linea del archivo que contiene los datos. La funcion procesa los Ids de cada columna y
 // setea el objeto red con los ids y las columnas
 
@@ -26,8 +28,8 @@ status_t ParseAll(istream & is, Red & Object){
 	if (st != ST_OK)
 		return st;
 	st = ParsedData(is, Object);
-	if(ProcessTree = true)
-		Object.ProcessTree();
+	if(ProcessTree == true)
+		Object.ProcessTrees();
 	return st;
 }
 
@@ -136,7 +138,7 @@ status_t ManageQuerys(istream & is, ostream & os, Red & Object){
 		}
 
 		// Se hacen las Querys
-		if(ProcessTree = true){
+		if(ProcessTree == true){
 			if(BigQuery){
 				Object.MakeBigQueryTree(Start, End);
 			}else if(ComplexQuery){
@@ -254,7 +256,7 @@ status_t ParsedData(istream & is, Red & Object){
 		}
 		if(j != 0){
 			Data[Object.GetLeng()].SetData(0);
-			for(i = 0; i Object.GetLeng(); i++){
+			for(i = 0; i < Object.GetLeng(); i++){
 				if(!(Data[i].IsEmpty()))
 					Data[Object.GetLeng()] = Data[Object.GetLeng()].GetData() + (Data[i].GetData()/j);
 			}
