@@ -41,7 +41,7 @@ static ostream *oss = 0;
 static fstream dfs;
 static fstream ifs;
 static fstream ofs;
-extern bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o no
+bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o no
 
 /********************* Cuerpo principal *********************/
 
