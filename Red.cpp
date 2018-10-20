@@ -136,13 +136,20 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 	}
 
 	// Busco un dato que no este vacio
-	j = 0;
-	while(!((*_Sensors[i])[Start + j]).IsEmpty())
-		j++;
+	for(j = Start; j < FinalMark; j++){
+		if(!((*_Sensors[i])[j]).IsEmpty())
+			break;
+	}
+	// En el caso de que todos los elementos esten vacios se develve el paquete con el flag. Se valida de esta manera porque si corto en el medio no esta vaciom solo interesa si corto al final
+	if(((*_Sensors[i])[j]).IsEmpty()){
+		_Pack->SetRangeStatus(true);
+		delete aux;
+		return;
+	}
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[i])[Start]);
-	aux->SetMax((*_Sensors[i])[Start]);
+	aux->SetMin((*_Sensors[i])[j]);
+	aux->SetMax((*_Sensors[i])[j]);
 
 	for (j = Start; j < FinalMark; j++){
 		if(!((*_Sensors[i])[j]).IsEmpty()){
@@ -183,14 +190,22 @@ void Red::MakeBigQuery(int Start, int End){
 	if(_Pack->GetRangeStatus())
 		return;
 
+
 	// Busco un dato que no este vacio
-	j = 0;
-	while(!((*_Sensors[_Amount])[Start + j]).IsEmpty())
-		j++;
+	for(j = Start; j < FinalMark; j++){
+		if(!((*_Sensors[_Amount])[j]).IsEmpty())
+			break;
+	}
+	// En el caso de que todos los elementos esten vacios se develve el paquete con el flag. Se valida de esta manera porque si corto en el medio no esta vaciom solo interesa si corto al final
+	if(((*_Sensors[_Amount])[j]).IsEmpty()){
+		_Pack->SetRangeStatus(true);
+		delete aux;
+		return;
+	}
 
 	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[_Amount])[Start]);
-	aux->SetMax((*_Sensors[_Amount])[Start]);
+	aux->SetMin((*_Sensors[_Amount])[j]);
+	aux->SetMax((*_Sensors[_Amount])[j]);
 
 	for (j = Start; j < FinalMark; j++){
 		if(!((*_Sensors[_Amount])[j]).IsEmpty()){
@@ -249,11 +264,9 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 		return;
 	}
 
-	// Hay que setearlos de esta manera ya que en el vector puede ser que el minimo sea mayor que 0 o el maximo menor que 0
-	aux->SetMin((*_Sensors[i])[Start]);
-	aux->SetMax((*_Sensors[i])[Start]);
+	// Se pone en true el falag de bad range para indicar que no estan inicializados los minimos y maximos
+	aux->SetRangeStatus(true);
 
-	//	Finalmente hago el analisis de los datos
 	for(i = 0; i < SensorQuantity; ++i){
 		// Recorro para comprobar si el Id esta entre los sensores y en que posicion
 		aux->SetIdStatus(true);
@@ -265,21 +278,41 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 		}
 		if(aux->GetIdStatus()){
 			*_Pack = *aux;
+			_Pack->SetRangeStatus(false); // Si no se inicializaron las variables esta en true y no es la razon por la que fallo el query
 			delete aux;
 			return;
 		}
 
-		// Una vez identificado el sensor al que se pide, se analiza la informacion
-		for(k = Start; k < FinalMark; k++){
-			aux->SetAverage(aux->GetAverage() + (*_Sensors[j])[k] / aux->GetQuantity());
-			if((*_Sensors[j])[k] < aux->GetMin()){
-				aux->SetMin((*_Sensors[j])[k]);
+		// Verifico si es necesario inicialiar los minimo y maximos
+		if(aux->GetRangeStatus()){
+			for(k = Start; k < FinalMark; k++){
+				if(!((*_Sensors[j])[k]).IsEmpty())
+					break;
 			}
-			if((*_Sensors[j])[k] > aux->GetMax()){
+			// En el caso de que todos los elementos esten vacios continua al siguiente sensor. Se valida de esta manera porque si corto en el medio no esta vaciom solo interesa si corto al final
+			if(((*_Sensors[j])[k]).IsEmpty()){
+				continue;
+			}else{
+				aux->SetRangeStatus(false);
+				aux->SetMin((*_Sensors[j])[k]);
 				aux->SetMax((*_Sensors[j])[k]);
 			}
 		}
+
+		// Una vez identificado el sensor al que se pide, se analiza la informacion
+		for(k = Start; k < FinalMark; k++){
+			if(!((*_Sensors[j])[k]).IsEmpty()){
+				if(((*_Sensors[j])[k]).GetData() < aux->GetMin())
+					aux->SetMin(((*_Sensors[j])[k]).GetData());
+				if(((*_Sensors[j])[k]).GetData() > aux->GetMax())
+					aux->SetMax(((*_Sensors[j])[k]).GetData());
+				aux->SetQuantity(aux->GetQuantity() + 1);
+					aux->SetAverage(aux->GetAverage() + ((*_Sensors[j])[k]).GetData());
+			}
+		}
 	}
+
+	aux->SetAverage(aux->GetAverage() / aux->GetQuantity());
 
 	*_Pack = *aux;
 	delete aux;

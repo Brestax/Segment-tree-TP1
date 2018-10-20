@@ -7,8 +7,6 @@
 #include "Quartet.hpp"
 #include "SegmentTree.hpp"
 
-
-
 SegmentTree::SegmentTree(){
 	_Leng = 0;
 	_UsedLeafs = 0;
@@ -150,13 +148,9 @@ Package& SegmentTree::GetSegment(int Left, int Right){
 	return Answer;
 }
 
-SegmentTree::~SegmentTree(){
-	if(_Array == NULL)
-		delete [] _Array;
-}
 
 
-Quartet& _GetSegment(int Node, int Left, int Right){
+Quartet& SegmentTree::_GetSegment(int Node, int Left, int Right){
 	int Middle;
 	Quartet LeftPart, RightPart;
 
@@ -169,15 +163,20 @@ Quartet& _GetSegment(int Node, int Left, int Right){
 
 	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
 	if(Right <= Middle)
-		return _GetSegment(2 * Node + 1, Right, Left);
+		return (*this)._GetSegment(2 * Node + 1, Right, Left);
 
 	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
 	if(Left >= Middle)
-		return _GetSegment(2 * Node + 2, Right, Left);
+		return (*this)._GetSegment(2 * Node + 2, Right, Left);
 
 	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
-	LeftPart = _GetSegment(2 * Node + 1, Left, Middle);
-	RightPart = _GetSegment(2 * Node + 2, Middle, Right);
+	LeftPart = (*this)._GetSegment(2 * Node + 1, Left, Middle);
+	RightPart = (*this)._GetSegment(2 * Node + 2, Middle, Right);
 
 	return LeftPart.Merge(RightPart);
+}
+
+SegmentTree::~SegmentTree(){
+	if(_Array == NULL)
+		delete [] _Array;
 }

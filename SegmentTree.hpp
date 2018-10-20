@@ -22,7 +22,7 @@ private:
 
 	SegmentTree();
 	SegmentTree(const SegmentTree &);
-	friend Quartet& _GetSegment(int, int, int);
+	Quartet& _GetSegment(int, int, int);
 	
 public:
 	SegmentTree(const ArrayElement &);

@@ -15,7 +15,7 @@ private:
 	double _Min;
 	double _Max;
 	int _Quantity;
-	bool _BadRange; // Si esta en TRUE significa que hay un problema con el rango de la consulta
+	bool _BadRange; // Si esta en TRUE significa que hay un problema con el rango de la consulta o si la respuesta esta vacia
 	bool _BadQuery; // Si esta en TRUE significa que hay un problema con la escritura de la query
 	bool _BadId; 	// Se esta en TRUE significa que hay un problema con el Id ingersado, no se coresponde con ninguno de los existentes
 public:
@@ -38,7 +38,6 @@ public:
 	void SetQueryStatus(bool);
 	void SetIdStatus(bool);
 	void Clear();	// Esta funcion setea todos los numeros en cero y los bools en false
-	Package& Merge(const Package &);
 	Package& operator=(const Package &);
 	~Package();
 };
