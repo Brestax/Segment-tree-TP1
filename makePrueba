@@ -14,16 +14,18 @@ QueryCreator.o: QueryCreator.cpp Cmdline.hpp
 Cmdline.o: Cmdline.cpp Cmdline.hpp
 	$(CC) $(FLAGS) -o Cmdline.o -c Cmdline.cpp
 
+########################################################
+
 Querys: QueryCreator.exe
-	./QueryCreator.exe -o QueryTest1.csv -n 10
-	./QueryCreator.exe -o QueryTest2.csv -n 50
-	./QueryCreator.exe -o QueryTest3.csv -n 100	
-	./QueryCreator.exe -o QueryTest4.csv -n 500
-	./QueryCreator.exe -o QueryTest5.csv -n 1000
-	./QueryCreator.exe -o QueryTest6.csv -n 5000
-	./QueryCreator.exe -o QueryTest7.csv -n 10000
-	./QueryCreator.exe -o QueryTest8.csv -n 50000
-	./QueryCreator.exe -o QueryTest9.csv -n 100000
+	./QueryCreator.exe -o Pruebas/QueryTest1.csv -n 10
+	./QueryCreator.exe -o Pruebas/QueryTest2.csv -n 50
+	./QueryCreator.exe -o Pruebas/QueryTest3.csv -n 100	
+	./QueryCreator.exe -o Pruebas/QueryTest4.csv -n 500
+	./QueryCreator.exe -o Pruebas/QueryTest5.csv -n 1000
+	./QueryCreator.exe -o Pruebas/QueryTest6.csv -n 5000
+	./QueryCreator.exe -o Pruebas/QueryTest7.csv -n 10000
+	./QueryCreator.exe -o Pruebas/QueryTest8.csv -n 50000
+	./QueryCreator.exe -o Pruebas/QueryTest9.csv -n 100000
 
 clear:
 	rm *.o
