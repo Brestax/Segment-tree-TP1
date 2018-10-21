@@ -7,11 +7,11 @@
 #include <string>
 using namespace std;
 
+#include "Red.hpp"
 #include "Element.hpp"
 #include "ArrayElement.hpp"
 #include "Package.hpp"
 #include "SegmentTree.hpp"
-#include "Red.hpp"
 
 Red::Red(){
 	_Ids = NULL;
