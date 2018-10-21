@@ -1,35 +1,29 @@
 # Archivo: makePrueba
 
 CC = g++
-FLAGS = -W -Wall -g -pedantic
+FLAGS = -Wall -g -pedantic #-W
 
-all: ejecprueba clear
+all: QueryCreator.exe clear
 
-ejecprueba: Prueba.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
-	$(CC) $(FLAGS) -o ejec Prueba.o Cmdline.o ArrayDouble.o Error.o Package.o Red.o Utils.o
+QueryCreator.exe: QueryCreator.o Cmdline.o
+	$(CC) $(FLAGS) -o QueryCreator.exe QueryCreator.o Cmdline.o
 
-Prueba.o: Prueba.cpp Cmdline.hpp Utils.hpp Error.hpp Red.hpp ArrayDouble.hpp
-	$(CC) $(FLAGS) -o Prueba.o -c Prueba.cpp
+QueryCreator.o: QueryCreator.cpp Cmdline.hpp
+	$(CC) $(FLAGS) -o QueryCreator.o -c QueryCreator.cpp
 
 Cmdline.o: Cmdline.cpp Cmdline.hpp
 	$(CC) $(FLAGS) -o Cmdline.o -c Cmdline.cpp
 
-ArrayDouble.o: ArrayDouble.cpp ArrayDouble.hpp
-	$(CC) $(FLAGS) -o ArrayDouble.o -c ArrayDouble.cpp
-
-Error.o: Error.cpp Error.hpp
-	$(CC) $(FLAGS) -o Error.o -c Error.cpp
-
-Package.o: Package.cpp Package.hpp
-	$(CC) $(FLAGS) -o Package.o -c Package.cpp
-
-Red.o: Red.cpp Red.hpp Package.hpp ArrayDouble.hpp Utils.hpp
-	$(CC) $(FLAGS) -o Red.o -c Red.cpp
-
-Utils.o: Utils.cpp Utils.hpp Red.hpp Error.hpp Package.hpp
-	$(CC) $(FLAGS) -o Utils.o -c Utils.cpp
-
-
+Querys: QueryCreator.exe
+	./QueryCreator.exe -o QueryTest1.csv -n 10
+	./QueryCreator.exe -o QueryTest2.csv -n 50
+	./QueryCreator.exe -o QueryTest3.csv -n 100	
+	./QueryCreator.exe -o QueryTest4.csv -n 500
+	./QueryCreator.exe -o QueryTest5.csv -n 1000
+	./QueryCreator.exe -o QueryTest6.csv -n 5000
+	./QueryCreator.exe -o QueryTest7.csv -n 10000
+	./QueryCreator.exe -o QueryTest8.csv -n 50000
+	./QueryCreator.exe -o QueryTest9.csv -n 100000
 
 clear:
 	rm *.o
