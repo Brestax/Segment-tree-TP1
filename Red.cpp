@@ -424,6 +424,10 @@ Red::~Red(){
 		delete _Sensors[i];
 	}
 	delete[] _Sensors;
+	for (int i = 0; i <= _Amount; ++i){
+		delete _Trees[i];
+	}
+	delete[] _Trees;	
 	delete _Pack;
 }
 
