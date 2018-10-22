@@ -100,15 +100,10 @@ Quartet& Quartet::operator=(const Quartet & q){
 }
 
 Quartet Quartet::Merge(const Quartet & q){
-	static Quartet aux;
+	Quartet aux;
 
-	if(_Right == q._Left){
-		aux._Left = _Left;
-		aux._Right = q._Right;
-	}else{
-		aux._Left = q._Left;
-		aux._Right = _Right;
-	}
+	aux._Left = _Left;
+	aux._Right = q._Right;
 
 	if(_InfinityStatus && q._InfinityStatus){
 		return aux;

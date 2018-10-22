@@ -174,7 +174,9 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 		return (*this)._GetSegment(2 * Node + 2, Left, Right);
 
 	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
+	std::cout << "Advertencia: Pase por aca: i = " << 2 * Node + 1 << std::endl;
 	LeftPart = (*this)._GetSegment(2 * Node + 1, Left, Middle);
+	std::cout << "Advertencia: Pase por aca: i = " << 2 * Node + 2 << std::endl;
 	RightPart = (*this)._GetSegment(2 * Node + 2, Middle, Right);
 
 	return LeftPart.Merge(RightPart);
