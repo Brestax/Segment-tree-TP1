@@ -9,7 +9,7 @@
 CC = g++
 FLAGS = -Wall -g -pedantic #-W 		#Para que no moleste con lo violeta
 
-all: ejec clear
+all: ejec # clear
 
 ejec: main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o SegmentTree.o Element.o Quartet.o 
 	$(CC) $(FLAGS) -o tp1 main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o Element.o SegmentTree.o Quartet.o

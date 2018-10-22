@@ -66,8 +66,8 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		_Array[i].SetMax(Source[j].GetData());
 		_Array[i].SetTotal(Source[j].GetData());
 		_Array[i].SetQuantity(1);
-		_Array[i].SetRight(j);
-		_Array[i].SetLeft(j + 1);
+		_Array[i].SetLeft(j);
+		_Array[i].SetRight(j + 1);
 	}
 
 	// Se rellena los nodos hoja vacios con sus extremos de su intervalo para poder llenar a los padres
@@ -158,6 +158,10 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 	Quartet LeftPart, RightPart;
 
 	// Si el intervalo es exactamente el que se pide, se devuelve el quartet que se tiene
+	std::cout << "pase por aca: voy a preguntar"<< std::endl;
+	std::cout << "pase por aca: ["<< Left << ',' << Right << ']' << std::endl;
+	std::cout << "pase por aca: Node: ["<< _Array[Node].GetLeft() << ',' << _Array[Node].GetRight() << ']' << std::endl << std::endl;
+
 	if((_Array[Node].GetLeft() == Left) && (_Array[Node].GetRight() == Right)){
 		return _Array[Node];
 	}
@@ -165,12 +169,12 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 	Middle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
 
 	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
-	if(Right <= Middle)
-		return (*this)._GetSegment(2 * Node + 1, Right, Left);
+	if(Left <= Middle)
+		return (*this)._GetSegment(2 * Node + 1, Left, Right);
 
 	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
-	if(Left >= Middle)
-		return (*this)._GetSegment(2 * Node + 2, Right, Left);
+	if(Right >= Middle)
+		return (*this)._GetSegment(2 * Node + 2, Left, Right);
 
 	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
 	LeftPart = (*this)._GetSegment(2 * Node + 1, Left, Middle);
