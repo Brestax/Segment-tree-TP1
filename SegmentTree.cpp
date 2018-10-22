@@ -26,20 +26,17 @@ SegmentTree::SegmentTree(const SegmentTree & s){
 SegmentTree::SegmentTree(const ArrayElement &Source){
 	int LeafPosition;
 	int i, j;
-	std::cout << "pase por aca: se pregunto el tamaño"<< std::endl;
 	int SourceLeng = Source.UsedSize();
 
 	// resuelvo los casos en que el largo es 0 o 1
 	if(!SourceLeng){
 		_Array = NULL;
 		_Leng = 0;
-		std::cout << "pase por aca: array nullo"<< std::endl;
 		return;
 	}
 	if(SourceLeng == 1){
 		_Array = new Quartet;
 		_Leng = 1;
-		std::cout << "pase por aca: array 1 elemento"<< std::endl;
 		if(!(Source[0].IsEmpty())){
 			_Array[0].SetMin(Source[0].GetData());
 			_Array[0].SetMax(Source[0].GetData());
@@ -52,12 +49,11 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	// Busco el numero que sea exponente de dos mayor al numero de datos, ya que ese debe ser el numero de hojas del arbol
 	std::cout << "pase por aca: SourceLeng = " << SourceLeng << std::endl;
 
-	for(i = 0, j = 1; SourceLeng <= (2 * j); i++, j = j * 2){
+	for(i = 0, j = 1; j < SourceLeng; i++, j = j * 2){
 		std::cout << "pase por aca: se saco j " << j << std::endl;
 	}
 
 	std::cout << "pase por aca: se saco j " << j << std::endl;
-
 
 	_Leng = (2 * j) * 2 - 1;
 	LeafPosition = (2 * j) - 1;
