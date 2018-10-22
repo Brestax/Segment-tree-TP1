@@ -413,9 +413,7 @@ void Red::AppendRow(Element * & Data){
 
 void Red::ProcessTrees(void){
 	_Trees = new SegmentTree*[_Amount + 1];
-	std::cout << "pase por aca: _Amount: "<< _Amount + 1<< std::endl;
 	for(int i = 0; i <= _Amount; ++i){
-		std::cout << std::endl << std::endl << "Pasada " << i << std::endl;
 		_Trees[i] = new SegmentTree(*(_Sensors[i]));
 	}
 }

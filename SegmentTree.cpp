@@ -28,6 +28,8 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	int i, j;
 	int SourceLeng = Source.UsedSize();
 
+	_UsedLeafs = SourceLeng;
+
 	// resuelvo los casos en que el largo es 0 o 1
 	if(!SourceLeng){
 		_Array = NULL;
@@ -47,18 +49,13 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	}
 
 	// Busco el numero que sea exponente de dos mayor al numero de datos, ya que ese debe ser el numero de hojas del arbol
-	std::cout << "pase por aca: SourceLeng = " << SourceLeng << std::endl;
 
 	for(i = 0, j = 1; j < SourceLeng; i++, j = j * 2){
-		std::cout << "pase por aca: se saco j " << j << std::endl;
 	}
-
-	std::cout << "pase por aca: se saco j " << j << std::endl;
 
 	_Leng = (2 * j) * 2 - 1;
 	LeafPosition = (2 * j) - 1;
 	_Array = new Quartet[_Leng];
-	std::cout << "pase por aca: se creo el vetor"<< std::endl;
 
 	// Se llenan los nodos hoja con los valores del arreglo de elementos
 	for(i = LeafPosition, j = 0; i < (LeafPosition + SourceLeng); i++, j++){
