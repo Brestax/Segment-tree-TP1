@@ -72,15 +72,15 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 
 	// Se rellena los nodos hoja vacios con sus extremos de su intervalo para poder llenar a los padres
 	for(; i < _Leng; i++, j++){
-		_Array[i].SetRight(j);
-		_Array[i].SetLeft(j + 1);		
+		_Array[i].SetLeft(j);		
+		_Array[i].SetRight(j + 1);
 	}
 
 	// Calculo todos los campos de cada nodo que no sea hoja
 	for(i = LeafPosition - 1; i >= 0; --i){		
 		// Primero de todo seteo los extremos del segmento ya que hay que setear todos los nodos de la misma manera
-		_Array[i].SetRight(_Array[(i * 2) + 1].GetRight());
-		_Array[i].SetLeft(_Array[(i * 2) + 2].GetLeft());
+		_Array[i].SetLeft(_Array[(i * 2) + 1].GetLeft());
+		_Array[i].SetRight(_Array[(i * 2) + 2].GetRight());
 
 		// Si sus dos hijos estan vacios no se hace nada
 		if((_Array[(i * 2) + 1].GetInfinity()) && (_Array[(i * 2) + 2].GetInfinity()))
@@ -158,10 +158,6 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 	Quartet LeftPart, RightPart;
 
 	// Si el intervalo es exactamente el que se pide, se devuelve el quartet que se tiene
-	std::cout << "pase por aca: voy a preguntar"<< std::endl;
-	std::cout << "pase por aca: ["<< Left << ',' << Right << ']' << std::endl;
-	std::cout << "pase por aca: Node: ["<< _Array[Node].GetLeft() << ',' << _Array[Node].GetRight() << ']' << std::endl << std::endl;
-
 	if((_Array[Node].GetLeft() == Left) && (_Array[Node].GetRight() == Right)){
 		return _Array[Node];
 	}
@@ -169,11 +165,12 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 	Middle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
 
 	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
-	if(Left <= Middle)
+	if(Right <= Middle){
 		return (*this)._GetSegment(2 * Node + 1, Left, Right);
+	}
 
 	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
-	if(Right >= Middle)
+	if(Left >= Middle)
 		return (*this)._GetSegment(2 * Node + 2, Left, Right);
 
 	// En este punto la respuesta es una combinacion de los dos hijos, por lo que se le pide sus respectivas respuestas y luego se combinan
