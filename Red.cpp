@@ -359,8 +359,8 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 	Package *aux;
 	int i, j, k;
 
-	// Se crea un paquete por cada sensor y luego se los une en uno solo
-	aux = new Package[SensorQuantity];
+	
+	aux = new Package;
 
 	for (i = 0; i < SensorQuantity; ++i){
 
@@ -371,10 +371,11 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 
 		// Si se repite un Id en el query se devuelve el paquete con el flag indicándolo
 		if(aux->GetQueryStatus()){
-			for(; i > 0; i--){
-				aux[i-1] = aux[i-1].Merge(aux[i]);
-			}
-			*_Pack = *aux;
+			if(!i)
+				*_Pack = *aux;
+			else
+				_Pack->Merge(*aux);
+			
 			delete aux;
 			return;
 		}
@@ -389,24 +390,23 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 		}
 		// En caso de que no esté se devuelve el paquete con los flags correspondientes
 		if(aux->GetIdStatus()){
-			for(; i > 0; i--){
-				aux[i-1] = aux[i-1].Merge(aux[i]);
-			}
-			*_Pack = *aux;
+			if(!i)
+				*_Pack = *aux;
+			else
+				_Pack->Merge(*aux);
+			
 			delete aux;
 			return;
 		}
 
-		aux[i] = _Trees[j]->GetSegment(Start, End);
+		*aux = _Trees[j]->GetSegment(Start, End);
 	}
-
-	// Se unen los paquetes en uno solo (aux[0])
-	for(; i > 0; i--){
-		aux[i-1] = aux[i-1].Merge(aux[i]);
-	}
-
-	*_Pack = *aux;
-	delete[] aux;
+	if(!i)
+		*_Pack = *aux;
+	else
+		_Pack->Merge(*aux);
+	
+	delete aux;
 }
 
 void Red::AppendRow(Element * & Data){
