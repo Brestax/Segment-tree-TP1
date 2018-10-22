@@ -188,8 +188,10 @@ void Red::MakeBigQuery(int Start, int End){
 	}
 
 	// Si el rango esta mal salgo del query
-	if(_Pack->GetRangeStatus())
+	if(_Pack->GetRangeStatus()){
+		delete aux;
 		return;
+	}
 
 
 	// Busco un dato que no este vacio
@@ -245,8 +247,10 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 	}
 
 	// Si el rango esta mal salgo del query
-	if(_Pack->GetRangeStatus())
+	if(_Pack->GetRangeStatus()){
+		delete aux;
 		return;
+	}
 
 	aux->SetQuantity(SensorQuantity * (FinalMark - Start));
 
