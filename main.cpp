@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <ctime>
 
 #include "Cmdline.hpp"
 #include "Red.hpp"
@@ -53,6 +54,10 @@ int main(int argc, char * const argv[]){
 	cmdline cmdl(options);	// Objeto con parametro tipo option_t (struct) declarado globalmente.
 	cmdl.parse(argc, argv);	// Metodo de parseo de la clase cmdline. Settea las variables globales
 
+	unsigned t0, t1;
+
+	t0 = clock();
+
 	// Se llama a una funcion que parsea todo el archivo de los datos
 	if ((st = ParseAll(*dss, SensorNet)) != ST_OK){
 		PrintError(st);
@@ -64,6 +69,11 @@ int main(int argc, char * const argv[]){
 		PrintError(st);
 		return EXIT_FAILURE;
 	}
+
+	t1 = clock();
+
+	double time = (double (t1 - t0)/CLOCKS_PER_SEC);
+	cout << "Execution Time: " << time << endl;
 
 	return EXIT_SUCCESS;
 }

@@ -27,6 +27,7 @@ private:
 public:
 	SegmentTree(const ArrayElement &);
 	Package GetSegment(int, int);
+	SegmentTree& operator=(const SegmentTree &);
 	~SegmentTree();
 };
 

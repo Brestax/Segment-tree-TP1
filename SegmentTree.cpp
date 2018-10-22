@@ -2,6 +2,7 @@
 	Archivo: SegmentTree.cpp
 */
 
+#include "ArrayElement.hpp"
 #include "Element.hpp"
 #include "Package.hpp"
 #include "Quartet.hpp"
@@ -54,9 +55,10 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	_Array = new Quartet[_Leng];
 
 	// Se llenan los nodos hoja con los valores del arreglo de elementos
-	for(i = LeafPosition, j = 0; i < LeafPosition + SourceLeng; i++, j++){
-		if(Source[j].IsEmpty())
+	for(i = LeafPosition, j = 0; i < (LeafPosition + SourceLeng); i++, j++){
+		if(Source[j].IsEmpty()){
 			continue;
+		}
 		_Array[i].SetMin(Source[j].GetData());
 		_Array[i].SetMax(Source[j].GetData());
 		_Array[i].SetTotal(Source[j].GetData());
@@ -173,6 +175,21 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 
 	return LeftPart.Merge(RightPart);
 }
+
+SegmentTree& SegmentTree::operator=(const SegmentTree & s){
+	_Leng = s._Leng;
+	_UsedLeafs = s._UsedLeafs;
+	if(s._Array == NULL){
+		_Array = NULL;
+		return *this;
+	}
+	_Array = new Quartet[_Leng];
+	for(int i = 0; i < _Leng; i++){
+		_Array[i] = s._Array[i];
+	}
+	return *this;
+}
+
 
 SegmentTree::~SegmentTree(){
 	if(_Array == NULL)
