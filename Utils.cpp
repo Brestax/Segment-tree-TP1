@@ -27,10 +27,11 @@ status_t ParseAll(istream & is, Red & Object){
 	st = ParseFirstLine(is, Object);
 	if (st != ST_OK)
 		return st;
-	st = ParsedData(is, Object);
+	if((st = ParsedData(is, Object)) != ST_OK)
+		return st;
 	if(ProcessTree == true)
 		Object.ProcessTrees();
-	return st;
+	return ST_OK;
 }
 
 status_t ManageQuerys(istream & is, ostream & os, Red & Object){
@@ -234,12 +235,12 @@ status_t ParsedData(istream & is, Red & Object){
 					Data[i] = Number;
 				}else{
 					delete[] Data;
-					return ST_ERROR_FILE_CORRUPTED;					
+					return ST_ERROR_FILE_CORRUPTED;
 				}
 				// Se verifica si se lee una coma
 				if((StringRead >> ch) && (ch != LINE_DIVIDER)){
 					delete[] Data;
-					return ST_ERROR_FILE_CORRUPTED;					
+					return ST_ERROR_FILE_CORRUPTED;
 				}
 			}else{	// En el caso del ultimo numero de la linea, se lee un numero y se ignora lo que hay despues de este, es decir que si no se leyo se lo indica como vacio
 				if(StringRead >> Number)
