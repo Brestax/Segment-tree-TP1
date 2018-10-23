@@ -7,6 +7,7 @@ FILES_PRUEBAS = Pruebas/QueryTest1.csv Pruebas/QueryTest2.csv \
 					Pruebas/QueryTest5.csv Pruebas/QueryTest6.csv \
 					Pruebas/QueryTest7.csv Pruebas/QueryTest8.csv \
 					Pruebas/QueryTest9.csv
+ECHO = /bin/echo
 
 all: QueryCreator.exe clear
 
@@ -43,7 +44,25 @@ Test: tp1 Pruebas/CPU_Temp.csv $(FILES_PRUEBAS)
 	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest8.csv -o Pruebas/out8.csv
 	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest9.csv -o Pruebas/out9.csv
 
-
+TestFile: tp1 Pruebas/CPU_Temp.csv $(FILES_PRUEBAS)
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest1.csv -o Pruebas/out1.csv | cat > Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t100\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest2.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t500\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest3.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t1000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest4.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t5000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest5.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t10000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest6.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t50000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest7.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t100000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest8.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t500000\n" >> Pruebas/ExecutionTime.csv
+	./tp1 -d Pruebas/CPU_Temp.csv -i Pruebas/QueryTest9.csv -o Pruebas/out1.csv | cat >> Pruebas/ExecutionTime.csv
+	$(ECHO) -n -e "\t1000000\n" >> Pruebas/ExecutionTime.csv
 
 clear:
 	rm *.o
