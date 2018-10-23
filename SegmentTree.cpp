@@ -196,6 +196,6 @@ SegmentTree& SegmentTree::operator=(const SegmentTree & s){
 
 
 SegmentTree::~SegmentTree(){
-	if(_Array == NULL)
+	if(_Array != NULL)
 		delete [] _Array;
 }

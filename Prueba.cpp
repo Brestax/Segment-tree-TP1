@@ -29,7 +29,6 @@
 #include "Utils.hpp"
 #include "Error.hpp"
 #include "Red.hpp"
-#include "ArrayDouble.hpp"
 
 using namespace std;
 

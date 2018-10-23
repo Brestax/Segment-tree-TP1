@@ -9,7 +9,7 @@
 CC = g++
 FLAGS = -Wall -g -pedantic #-W 		#Para que no moleste con lo violeta
 
-all: ejec # clear
+all: ejec clear
 
 ejec: main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o SegmentTree.o Element.o Quartet.o 
 	$(CC) $(FLAGS) -o tp1 main.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o Element.o SegmentTree.o Quartet.o
@@ -45,13 +45,13 @@ Quartet.o: Quartet.cpp Quartet.hpp
 	$(CC) $(FLAGS) -o Quartet.o -c Quartet.cpp
 
 
-prueba: ejecprueba clear
+#prueba: ejecprueba clear
 
-ejecprueba: Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
-	$(CC) $(FLAGS) -o ejecprueba Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
+#ejecprueba: Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
+#	$(CC) $(FLAGS) -o ejecprueba Prueba.o Cmdline.o ArrayElement.o Error.o Package.o Red.o Utils.o
 
-Prueba.o: Prueba.cpp Cmdline.hpp Utils.hpp Error.hpp Red.hpp ArrayElement.hpp
-	$(CC) $(FLAGS) -o Prueba.o -c Prueba.cpp
+#Prueba.o: Prueba.cpp Cmdline.hpp Utils.hpp Error.hpp Red.hpp ArrayElement.hpp
+#	$(CC) $(FLAGS) -o Prueba.o -c Prueba.cpp
 
 
 clear:
