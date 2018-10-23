@@ -49,11 +49,11 @@ bool ProcessTree;	// Es un bool para determinar si se utiliza el SegmentTree o n
 int main(int argc, char * const argv[]){
 
 	status_t st;
-	Red SensorNet;
 
 	cmdline cmdl(options);	// Objeto con parametro tipo option_t (struct) declarado globalmente.
 	cmdl.parse(argc, argv);	// Metodo de parseo de la clase cmdline. Settea las variables globales
 
+	Red SensorNet;
 	unsigned t0, t1;
 
 	t0 = clock();
