@@ -164,12 +164,12 @@ Quartet SegmentTree::_GetSegment(int Node, int Left, int Right){
 
 	Middle = (_Array[Node].GetLeft() + _Array[Node].GetRight()) / 2;
 
-	// Si el extremo derecho del intervalo es mayor que la mitad del nodo le pide la respuesta al hijo izquierdo
+	// Si el extremo derecho del intervalo es menor que la mitad del nodo le pide la respuesta al hijo izquierdo
 	if(Right <= Middle){
 		return (*this)._GetSegment(2 * Node + 1, Left, Right);
 	}
 
-	// Si el extremo izquierdo del intervalo es menor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
+	// Si el extremo izquierdo del intervalo es mayor que la mitad del intervalo del nodo, se le pide la respuesta del intervalo al hijo derecho
 	if(Left >= Middle)
 		return (*this)._GetSegment(2 * Node + 2, Left, Right);
 
