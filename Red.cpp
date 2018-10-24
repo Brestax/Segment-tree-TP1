@@ -105,6 +105,14 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 	Package * aux;
 
 	aux = new Package;
+	
+	if(Start >= End  || Start < 0 || Start < 0){
+		aux->SetQueryStatus(true);
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}
+
 
 	aux->SetIdStatus(true);
 	for(i = 0; i < _Amount; i++){
@@ -174,6 +182,13 @@ void Red::MakeBigQuery(int Start, int End){
 	int j;
 
 	aux = new Package;
+	
+	if(Start >= End  || Start < 0){
+		aux->SetQueryStatus(true);
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}
 
 	////aux->Clear();
 
@@ -235,6 +250,12 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 
 	aux = new Package;
 
+	if(Start >= End  || Start < 0){
+		aux->SetQueryStatus(true);
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}
 
 	// Verifio si el intervalo esta en los Arreglos
 	if(Start > _Sensors[0]->UsedSize()){
@@ -326,8 +347,15 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 void Red::MakeSmallQueryTree(string ID, int Start, int End){
 	Package *aux;
 	int i;
-
+	
 	aux = new Package;
+	
+	if(Start >= End  || Start < 0){
+		aux->SetQueryStatus(true);
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}
 
 	// Comparo los strings para buscar el sensor que me pide
 	aux->SetIdStatus(true);
@@ -351,7 +379,12 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 }
 
 void Red::MakeBigQueryTree(int Start, int End){
-	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)
+	if(Start >= End  || Start < 0){
+		_Pack->SetQueryStatus(true);
+		return;
+	}
+
+	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)	
 	*_Pack = (*_Trees[_Amount]).GetSegment(Start, End);
 }
 
@@ -361,6 +394,13 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 
 	
 	aux = new Package;
+	
+	if(Start >= End  || Start < 0){
+		aux->SetQueryStatus(true);
+		*_Pack = *aux;
+		delete aux;
+		return;
+	}
 
 	for (i = 0; i < SensorQuantity; ++i){
 
