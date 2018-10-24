@@ -159,7 +159,7 @@ static void opt_process(string const &arg){
 }
 
 static void opt_help(string const &arg){
-	cout << "cmdline -d file [-i file] [-o file]"
+	cout << "./tp1 -d file [-i file] [-o file] [-p (Iteration) or (Tree)]"
 	     << endl;
 	exit(0);
 }
