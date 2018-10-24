@@ -129,7 +129,7 @@ Package SegmentTree::GetSegment(int Left, int Right){
 	if(Left > _UsedLeafs){
 		Answer.SetRangeStatus(true);
 	}
-	if(Left > _UsedLeafs){
+	if(Right > _UsedLeafs){
 		Right = _UsedLeafs;
 	}
 
@@ -143,7 +143,7 @@ Package SegmentTree::GetSegment(int Left, int Right){
 
 	// Se transforman las soluciones de Quartet a Paquete
 	if(!aux.GetInfinity()){
-		Answer.SetMin(aux.GetMax());
+		Answer.SetMin(aux.GetMin());
 		Answer.SetMax(aux.GetMax());
 		Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
 		Answer.SetQuantity(aux.GetQuantity());
