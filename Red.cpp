@@ -18,6 +18,7 @@ Red::Red(){
 	_Sensors = NULL;
 	_Pack = new Package;
 	_Amount = 0;
+	_Trees = NULL;
 }
 
 Red::Red(int Number){
@@ -28,6 +29,7 @@ Red::Red(int Number){
 	}
 	_Pack = new Package;
 	_Amount = Number;
+	_Trees = NULL;
 }
 
 Red::Red(const Red & r){
@@ -468,10 +470,12 @@ Red::~Red(){
 		delete _Sensors[i];
 	}
 	delete[] _Sensors;
-	for (int i = 0; i <= _Amount; ++i){
-		delete _Trees[i];
-	}
-	delete[] _Trees;	
+	if(_Trees != NULL){
+		for (int i = 0; i <= _Amount; ++i){
+			delete _Trees[i];
+		}
+		delete[] _Trees;
+	}	
 	delete _Pack;
 }
 

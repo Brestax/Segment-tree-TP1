@@ -19,11 +19,24 @@ set(Axis_Handler,'Box','on','FontName','Arial','FontSize',9,'GridLineStyle','--'
 hold on;
 grid on;
 
-semilogx(ExecutionTime(:,2),ExecutionTime(:,1),'-m.','LineWidth',1.5);
+semilogx(ExecutionTime(:,3),ExecutionTime(:,1),'-m.','LineWidth',1.5);
+
+semilogx(ExecutionTime(:,3),ExecutionTime(:,2),'-g.','LineWidth',1.5);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-axis([100 1000000 0.001 20]);
+
+LEGEND1=sprintf('Utilizando SegmentTree');
+LEGEND2=sprintf('Sin utilizar SegmentTree');
+
+axis([100 1000000 0.001 40]);
+
+xlabel('Cantidad de querys [n]');
+ylabel('Tiempo [s]');
+
+Legend_Handler = legend(LEGEND1,LEGEND2);
+legend('Boxon');
+set(Legend_Handler,'FontName','Arial','FontSize',7,"location",'northwest');
 
 print('Tiempo de Ejeuion.png','-dpng');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
