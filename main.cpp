@@ -31,7 +31,7 @@ static option_t options[] = {
 	{1, "d", "data", NULL, opt_data, OPT_MANDATORY},
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
-	{1, "p", "Process", "-", opt_process, OPT_DEFAULT},
+	{1, "p", "process", "-", opt_process, OPT_DEFAULT},
 	{0, "h", "help", NULL, opt_help, OPT_DEFAULT},
 	{0, },
 };
