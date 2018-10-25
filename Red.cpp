@@ -483,11 +483,15 @@ void Red::ProcessTrees(void){
 }
 
 Red::~Red(){
-	delete[] _Ids;
-	for (int i = 0; i <= _Amount; ++i){
-		delete _Sensors[i];
+	if(_Ids){
+		delete[] _Ids;
 	}
-	delete[] _Sensors;
+	if(_Sensors){
+		for (int i = 0; i <= _Amount; ++i){
+			delete _Sensors[i];
+		}
+		delete[] _Sensors;
+	}
 	if(_Trees != NULL){
 		for (int i = 0; i <= _Amount; ++i){
 			delete _Trees[i];
