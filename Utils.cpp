@@ -272,6 +272,7 @@ status_t ParsedData(istream & is, Red & Object){
 }
 status_t DivideString(string & Read, string * & Parsed, char Divider){
 	string  aux;
+	bool PrevComa = false;
 	//stringstream StringRead;
 	size_t i, len, Comas = 0;
 	char ch;
@@ -280,8 +281,13 @@ status_t DivideString(string & Read, string * & Parsed, char Divider){
 	len = Read.length() - 1;
 	for(i = 0; i < len; ++i){
 		if(Read[i] == Divider){
+			if(PrevComa)
+				return ST_ERROR_FILE_CORRUPTED;
 			Comas++;
+			PrevComa = true;
 		}
+		else
+			PrevComa = false;
 	}
 	Parsed = new string[Comas + 1]; 	// Se le suma uno debido a que hay un sring mas que divisor
 

@@ -45,6 +45,9 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 			_Array[0].SetTotal(Source[0].GetData());
 			_Array[0].SetQuantity(1);
 		}
+		else{
+			_Array->ToInfinity();
+		}
 		return;
 	}
 
@@ -60,6 +63,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 	// Se llenan los nodos hoja con los valores del arreglo de elementos
 	for(i = LeafPosition, j = 0; i < (LeafPosition + SourceLeng); i++, j++){
 		if(Source[j].IsEmpty()){
+			_Array[i].ToInfinity();
 			continue;
 		}
 		_Array[i].SetMin(Source[j].GetData());
@@ -72,12 +76,12 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 
 	// Se rellena los nodos hoja vacios con sus extremos de su intervalo para poder llenar a los padres
 	for(; i < _Leng; i++, j++){
-		_Array[i].SetLeft(j);		
+		_Array[i].SetLeft(j);
 		_Array[i].SetRight(j + 1);
 	}
 
 	// Calculo todos los campos de cada nodo que no sea hoja
-	for(i = LeafPosition - 1; i >= 0; --i){		
+	for(i = LeafPosition - 1; i >= 0; --i){
 		// Primero de todo seteo los extremos del segmento ya que hay que setear todos los nodos de la misma manera
 		_Array[i].SetLeft(_Array[(i * 2) + 1].GetLeft());
 		_Array[i].SetRight(_Array[(i * 2) + 2].GetRight());
@@ -89,15 +93,15 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		// Si uno de sus dos nodos hijos esta vacio se llena el nodo con los resultados de su otro hijo
 		if(!(_Array[(i * 2) + 1].GetInfinity()) && (_Array[(i * 2) + 2].GetInfinity())){
 			_Array[i].SetMin(_Array[(i * 2) + 1].GetMin());
-			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());			
-			_Array[i].SetTotal(_Array[(i * 2) + 1].GetTotal());			
+			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());
+			_Array[i].SetTotal(_Array[(i * 2) + 1].GetTotal());
 			_Array[i].SetQuantity(_Array[(i * 2) + 1].GetQuantity());
 			continue;
 		}
 		if((_Array[(i * 2) + 1].GetInfinity()) && !(_Array[(i * 2) + 2].GetInfinity())){
 			_Array[i].SetMin(_Array[(i * 2) + 1].GetMin());
-			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());			
-			_Array[i].SetTotal(_Array[(i * 2) + 1].GetTotal());			
+			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());
+			_Array[i].SetTotal(_Array[(i * 2) + 1].GetTotal());
 			_Array[i].SetQuantity(_Array[(i * 2) + 1].GetQuantity());
 			continue;
 
@@ -109,7 +113,7 @@ SegmentTree::SegmentTree(const ArrayElement &Source){
 		}else{
 			_Array[i].SetMin(_Array[(i * 2) + 2].GetMin());
 		}
-	
+
 		if(_Array[(i * 2) + 1].GetMax() > _Array[(i * 2) + 2].GetMax()){
 			_Array[i].SetMax(_Array[(i * 2) + 1].GetMax());
 		}else{
@@ -134,11 +138,11 @@ Package SegmentTree::GetSegment(int Left, int Right){
 	}
 
 	// Si el rango esta mal salgo del query
-	if(Answer.GetRangeStatus()){ 
+	if(Answer.GetRangeStatus()){
 		return Answer;
 	}
 
-	// LLAmamos a la funcion recursiva que es privada y se recibe un Quartet 
+	// LLAmamos a la funcion recursiva que es privada y se recibe un Quartet
 	aux = _GetSegment(0, Left, Right);
 
 	// Se transforman las soluciones de Quartet a Paquete
@@ -147,9 +151,10 @@ Package SegmentTree::GetSegment(int Left, int Right){
 		Answer.SetMax(aux.GetMax());
 		Answer.SetAverage(aux.GetTotal()/aux.GetQuantity());
 		Answer.SetQuantity(aux.GetQuantity());
-	}else
+	}else{
 		Answer.SetRangeStatus(true);
-	
+	}
+
 	return Answer;
 }
 

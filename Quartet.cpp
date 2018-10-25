@@ -10,7 +10,7 @@
 Quartet::Quartet(){
 	_Total = 0;
 	_Quantity = 0;
-	_InfinityStatus = true;	
+	_InfinityStatus = true;
 }
 
 Quartet::Quartet(const Quartet & q){
@@ -95,7 +95,7 @@ Quartet& Quartet::operator=(const Quartet & q){
 		_Max = q._Max;
 	}
 	_Total = q._Total;
-	_Quantity = q._Quantity;	
+	_Quantity = q._Quantity;
 	return *this;
 }
 
@@ -108,7 +108,6 @@ Quartet Quartet::Merge(const Quartet & q){
 	if(_InfinityStatus && q._InfinityStatus){
 		return aux;
 	}
-
 	if(!(_InfinityStatus) && q._InfinityStatus){
 		aux._InfinityStatus = false;
 		aux._Min = _Min;

@@ -107,8 +107,8 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 	Package * aux;
 
 	aux = new Package;
-	
-	if(Start >= End  || Start < 0 || Start < 0){
+
+	if(Start >= End  || End < 0){
 		aux->SetQueryStatus(true);
 		*_Pack = *aux;
 		delete aux;
@@ -132,6 +132,9 @@ void Red::MakeSmallQuery(string ID, int Start, int End){
 	// Verifio si el intervalo esta en los Arreglos
 	if(Start > _Sensors[i]->UsedSize()){
 		_Pack->SetRangeStatus(true);
+	}
+	else if(Start < 0){
+		Start = 0;
 	}
 	if(End > _Sensors[i]->UsedSize()){
 		FinalMark = _Sensors[i]->UsedSize();
@@ -184,8 +187,8 @@ void Red::MakeBigQuery(int Start, int End){
 	int j;
 
 	aux = new Package;
-	
-	if(Start >= End  || Start < 0){
+
+	if(Start >= End  || End < 0){
 		aux->SetQueryStatus(true);
 		*_Pack = *aux;
 		delete aux;
@@ -197,6 +200,9 @@ void Red::MakeBigQuery(int Start, int End){
 	// Verifico si el intervalo esta en los Arreglos
 	if(Start > _Sensors[0]->UsedSize()){
 		_Pack->SetRangeStatus(true);
+	}
+	else if(Start < 0){
+		Start = 0;
 	}
 	if(End > _Sensors[0]->UsedSize()){
 		FinalMark = _Sensors[0]->UsedSize();
@@ -239,7 +245,7 @@ void Red::MakeBigQuery(int Start, int End){
 	}
 
 	aux->SetAverage(aux->GetAverage() / aux->GetQuantity());
-	
+
 
 	*_Pack = *aux;
 	delete aux;
@@ -252,7 +258,7 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 
 	aux = new Package;
 
-	if(Start >= End  || Start < 0){
+	if(Start >= End  || End < 0){
 		aux->SetQueryStatus(true);
 		*_Pack = *aux;
 		delete aux;
@@ -262,6 +268,9 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 	// Verifio si el intervalo esta en los Arreglos
 	if(Start > _Sensors[0]->UsedSize()){
 		_Pack->SetRangeStatus(true);
+	}
+	else if(Start < 0){
+		Start = 0;
 	}
 	if(End > _Sensors[0]->UsedSize()){
 		FinalMark = _Sensors[0]->UsedSize();
@@ -349,14 +358,17 @@ void Red::MakeComplexQuery(string * & ID, int SensorQuantity, int Start, int End
 void Red::MakeSmallQueryTree(string ID, int Start, int End){
 	Package *aux;
 	int i;
-	
+
 	aux = new Package;
-	
-	if(Start >= End  || Start < 0){
+
+	if(Start >= End  || End < 0){
 		aux->SetQueryStatus(true);
 		*_Pack = *aux;
 		delete aux;
 		return;
+	}
+	if(Start < 0){
+		Start = 0;
 	}
 
 	// Comparo los strings para buscar el sensor que me pide
@@ -371,7 +383,7 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 		*_Pack = *aux;
 		delete aux;
 		return;
-	}	
+	}
 
 	// Le pido al segmentree la respuesta para el segmento entre Start y End
 	*aux = (*_Trees[i]).GetSegment(Start, End);
@@ -381,12 +393,15 @@ void Red::MakeSmallQueryTree(string ID, int Start, int End){
 }
 
 void Red::MakeBigQueryTree(int Start, int End){
-	if(Start >= End  || Start < 0){
+	if(Start >= End  || End < 0){
 		_Pack->SetQueryStatus(true);
 		return;
 	}
+	if(Start < 0){
+		Start = 0;
+	}
 
-	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)	
+	// Como no tengo que buscar el sensor, directamente pido el resultado del intervalo  [Start,End)
 	*_Pack = (*_Trees[_Amount]).GetSegment(Start, End);
 }
 
@@ -394,14 +409,17 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 	Package *aux;
 	int i, j, k;
 
-	
+
 	aux = new Package;
-	
-	if(Start >= End  || Start < 0){
+
+	if(Start >= End  || End < 0){
 		aux->SetQueryStatus(true);
 		*_Pack = *aux;
 		delete aux;
 		return;
+	}
+	if(Start < 0){
+		Start = 0;
 	}
 
 	for (i = 0; i < SensorQuantity; ++i){
@@ -417,7 +435,7 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 				*_Pack = *aux;
 			else
 				_Pack->Merge(*aux);
-			
+
 			delete aux;
 			return;
 		}
@@ -436,7 +454,7 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 				*_Pack = *aux;
 			else
 				_Pack->Merge(*aux);
-			
+
 			delete aux;
 			return;
 		}
@@ -447,7 +465,7 @@ void Red::MakeComplexQueryTree(string * & ID, int SensorQuantity, int Start, int
 		*_Pack = *aux;
 	else
 		_Pack->Merge(*aux);
-	
+
 	delete aux;
 }
 
@@ -475,7 +493,7 @@ Red::~Red(){
 			delete _Trees[i];
 		}
 		delete[] _Trees;
-	}	
+	}
 	delete _Pack;
 }
 
